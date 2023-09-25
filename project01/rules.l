@@ -67,11 +67,12 @@ int line_number = 1;
 
  /* Useful Abstraction Lexemes */
 
-[A-Z][0-9A-Z][0-9A-Z][0-9A-Z][0-9A-Z][0-9A-Z][0-9A-Z][0-9A-Z][0-9A-Z][0-9A-Z]* { return TOK_UNKNOWN; }
+[A-Z][0-9A-Z]{8,} { return TOK_UNKNOWN; }
 [A-Z][0-9A-Z]{0,7} { return TOK_IDENT; }
 [0-9][0-9]*"."[0-9][0-9]* { return TOK_FLOATLIT; }
 [0-9]* { return TOK_INTLIT; }
-['][^']*['] { return TOK_STRINGLIT; }
+['][^'\n']{80,}['] { return TOK_UNKNOWN; }
+['][^'\n]*['] { return TOK_STRINGLIT; }
 
  /* Ignore Comments */
 [{][^}]*[}] {  }
