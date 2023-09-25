@@ -1,6 +1,9 @@
-/******************************************************************* 
-write an appropriate header comment, see the assignment
-*******************************************************************/
+/*********************************************************************
+Name: Ryan Michael Curry NetID: rmc580
+Course: CSE 4714 Project 01
+Programming Environment: Ubuntu 22.04 in WSL2
+Purpose of File: Rules for the TIPS language
+*********************************************************************/
 %option yylineno
 %option noyywrap
 %{

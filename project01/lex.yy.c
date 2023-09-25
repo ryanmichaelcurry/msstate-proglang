@@ -645,16 +645,19 @@ int yy_flex_debug = 0;
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
 #line 1 "rules.l"
-/******************************************************************* 
-write an appropriate header comment, see the assignment
-*******************************************************************/
-#line 7 "rules.l"
+/*********************************************************************
+Name: Ryan Michael Curry NetID: rmc580
+Course: CSE 4714 Project 01
+Programming Environment: Ubuntu 22.04 in WSL2
+Purpose of File: Rules for the TIPS language
+*********************************************************************/
+#line 10 "rules.l"
 #include "lexer.h"
 
 // global variable to hold current line number being read
 int line_number = 1;
-#line 657 "lex.yy.c"
-#line 658 "lex.yy.c"
+#line 660 "lex.yy.c"
+#line 661 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -871,15 +874,15 @@ YY_DECL
 		}
 
 	{
-#line 13 "rules.l"
+#line 16 "rules.l"
 
 
 
 
-#line 18 "rules.l"
+#line 21 "rules.l"
  /* Keyword Lexemes */
 
-#line 883 "lex.yy.c"
+#line 886 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -948,248 +951,248 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 20 "rules.l"
+#line 23 "rules.l"
 { return TOK_BEGIN; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 21 "rules.l"
+#line 24 "rules.l"
 { return TOK_BREAK; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 22 "rules.l"
+#line 25 "rules.l"
 { return TOK_CONTINUE; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 23 "rules.l"
+#line 26 "rules.l"
 { return TOK_DOWNTO; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 24 "rules.l"
+#line 27 "rules.l"
 { return TOK_ELSE; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 25 "rules.l"
+#line 28 "rules.l"
 { return TOK_END; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 26 "rules.l"
+#line 29 "rules.l"
 { return TOK_FOR; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 27 "rules.l"
+#line 30 "rules.l"
 { return TOK_IF; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 28 "rules.l"
+#line 31 "rules.l"
 { return TOK_LET; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 29 "rules.l"
+#line 32 "rules.l"
 { return TOK_PROGRAM; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 30 "rules.l"
+#line 33 "rules.l"
 { return TOK_READ; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 31 "rules.l"
+#line 34 "rules.l"
 { return TOK_THEN; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 32 "rules.l"
+#line 35 "rules.l"
 { return TOK_TO; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 33 "rules.l"
+#line 36 "rules.l"
 { return TOK_VAR; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 34 "rules.l"
+#line 37 "rules.l"
 { return TOK_WHILE; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 35 "rules.l"
+#line 38 "rules.l"
 { return TOK_WRITE; }
 	YY_BREAK
 /* Datatype Specifier Lexemes */
 case 17:
 YY_RULE_SETUP
-#line 40 "rules.l"
+#line 43 "rules.l"
 { return TOK_INTEGER; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 41 "rules.l"
+#line 44 "rules.l"
 { return TOK_REAL; }
 	YY_BREAK
 /* Punctuation Lexemes */
 case 19:
 YY_RULE_SETUP
-#line 46 "rules.l"
+#line 49 "rules.l"
 { return TOK_SEMICOLON; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 47 "rules.l"
+#line 50 "rules.l"
 { return TOK_COLON; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 48 "rules.l"
+#line 51 "rules.l"
 { return TOK_OPENPAREN; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 49 "rules.l"
+#line 52 "rules.l"
 { return TOK_CLOSEPAREN; }
 	YY_BREAK
 /* Operator Lexemes */
 case 23:
 YY_RULE_SETUP
-#line 54 "rules.l"
+#line 57 "rules.l"
 { return TOK_PLUS; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 55 "rules.l"
+#line 58 "rules.l"
 { return TOK_MINUS; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 56 "rules.l"
+#line 59 "rules.l"
 { return TOK_MULTIPLY; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 57 "rules.l"
+#line 60 "rules.l"
 { return TOK_DIVIDE; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 58 "rules.l"
+#line 61 "rules.l"
 { return TOK_ASSIGN; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 59 "rules.l"
+#line 62 "rules.l"
 { return TOK_EQUALTO; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 60 "rules.l"
+#line 63 "rules.l"
 { return TOK_LESSTHAN; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 61 "rules.l"
+#line 64 "rules.l"
 { return TOK_GREATERTHAN; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 62 "rules.l"
+#line 65 "rules.l"
 { return TOK_NOTEQUALTO; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 63 "rules.l"
+#line 66 "rules.l"
 { return TOK_MOD; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 64 "rules.l"
+#line 67 "rules.l"
 { return TOK_NOT; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 65 "rules.l"
+#line 68 "rules.l"
 { return TOK_OR; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 66 "rules.l"
+#line 69 "rules.l"
 { return TOK_AND; }
 	YY_BREAK
 /* Useful Abstraction Lexemes */
 case 36:
 YY_RULE_SETUP
-#line 71 "rules.l"
+#line 74 "rules.l"
 { return TOK_UNKNOWN; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 72 "rules.l"
+#line 75 "rules.l"
 { return TOK_IDENT; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 73 "rules.l"
+#line 76 "rules.l"
 { return TOK_FLOATLIT; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 74 "rules.l"
+#line 77 "rules.l"
 { return TOK_INTLIT; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 75 "rules.l"
+#line 78 "rules.l"
 { return TOK_UNKNOWN; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 76 "rules.l"
+#line 79 "rules.l"
 { return TOK_STRINGLIT; }
 	YY_BREAK
 /* Ignore Comments */
 case 42:
 /* rule 42 can match eol */
 YY_RULE_SETUP
-#line 79 "rules.l"
+#line 82 "rules.l"
 {  }
 	YY_BREAK
 case 43:
 /* rule 43 can match eol */
 YY_RULE_SETUP
-#line 81 "rules.l"
+#line 84 "rules.l"
 { line_number++; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 83 "rules.l"
+#line 86 "rules.l"
 /* nop */
 	YY_BREAK
 /* Found an unknown character */
 case 45:
 YY_RULE_SETUP
-#line 87 "rules.l"
+#line 90 "rules.l"
 { return TOK_UNKNOWN; }
 	YY_BREAK
 /* Recognize end of file */
 case YY_STATE_EOF(INITIAL):
-#line 91 "rules.l"
+#line 94 "rules.l"
 { return TOK_EOF; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 93 "rules.l"
+#line 96 "rules.l"
 ECHO;
 	YY_BREAK
-#line 1193 "lex.yy.c"
+#line 1196 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2204,4 +2207,4 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 93 "rules.l"
+#line 96 "rules.l"
