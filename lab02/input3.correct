@@ -1,0 +1,24 @@
+Using the input3.in file for input
+next lexeme: |your|, token: POSSESSIVE
+enter <sentence>
+|  enter <noun phrase> 1
+|  |  enter <adjective phrase> 1
+|  |  |  found POSSESSIVE: |your|
+|  |  |  next lexeme: |green|, token: ADJECTIVE
+|  |  |  found ADJECTIVE: |green|
+|  |  |  next lexeme: |time lord|, token: NOUN
+|  |  exit <adjective phrase> 1
+|  |  found NOUN: |time lord|
+|  |  next lexeme: |barely|, token: ADVERB
+|  exit <noun phrase> 1
+|  enter <verb phrase> 1
+|  |  found ADVERB: |barely|
+|  |  next lexeme: |saved|, token: VERB
+|  |  enter <verb phrase> 2
+|  |  |  found VERB: |saved|
+|  |  |  next lexeme: |squarely|, token: ADVERB
+|  |  exit <verb phrase> 2
+|  exit <verb phrase> 1
+
+***ERROR near |squarely|
+	<noun phrase> did not start with an article or possessive.

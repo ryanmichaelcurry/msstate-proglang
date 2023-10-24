@@ -1,0 +1,46 @@
+Using the input5.in file for input
+next lexeme: |his|, token: POSSESSIVE
+enter <sentence>
+|  enter <noun phrase> 1
+|  |  enter <adjective phrase> 1
+|  |  |  found POSSESSIVE: |his|
+|  |  |  next lexeme: |furious|, token: ADJECTIVE
+|  |  |  found ADJECTIVE: |furious|
+|  |  |  next lexeme: |nose|, token: NOUN
+|  |  exit <adjective phrase> 1
+|  |  found NOUN: |nose|
+|  |  next lexeme: |awkwardly|, token: ADVERB
+|  exit <noun phrase> 1
+|  enter <verb phrase> 1
+|  |  found ADVERB: |awkwardly|
+|  |  next lexeme: |sort of|, token: ADVERB
+|  |  enter <verb phrase> 2
+|  |  |  found ADVERB: |sort of|
+|  |  |  next lexeme: |barely|, token: ADVERB
+|  |  |  enter <verb phrase> 3
+|  |  |  |  found ADVERB: |barely|
+|  |  |  |  next lexeme: |incompetently|, token: ADVERB
+|  |  |  |  enter <verb phrase> 4
+|  |  |  |  |  found ADVERB: |incompetently|
+|  |  |  |  |  next lexeme: |invented|, token: VERB
+|  |  |  |  |  enter <verb phrase> 5
+|  |  |  |  |  |  found VERB: |invented|
+|  |  |  |  |  |  next lexeme: |my|, token: POSSESSIVE
+|  |  |  |  |  exit <verb phrase> 5
+|  |  |  |  exit <verb phrase> 4
+|  |  |  exit <verb phrase> 3
+|  |  exit <verb phrase> 2
+|  exit <verb phrase> 1
+|  enter <noun phrase> 2
+|  |  enter <adjective phrase> 2
+|  |  |  found POSSESSIVE: |my|
+|  |  |  next lexeme: |timey-wimey|, token: ADJECTIVE
+|  |  |  found ADJECTIVE: |timey-wimey|
+|  |  |  next lexeme: |homework|, token: NOUN
+|  |  exit <adjective phrase> 2
+|  |  found NOUN: |homework|
+|  |  next lexeme: |EOF|, token: === unmapped token name ===
+|  exit <noun phrase> 2
+exit <sentence>
+
+=== MAROON! WHITE! Your parse was successful! ===
