@@ -250,8 +250,11 @@ bool first_of_statement(void);
 void block();
 void var();
 void statement();
+
 void assignment();
 void compound_stmt();
+void if_stmt();
+void while_stmt();
 void read();
 void write();
 
@@ -265,17 +268,29 @@ void factor()
 {
   cout << psp() << "enter <factor>" << endl;
   ++level;
-  if (nextToken == TOK_INTLIT || nextToken == TOK_FLOATLIT || nextToken == TOK_IDENT)
+  if (nextToken == TOK_INTLIT || nextToken == TOK_FLOATLIT)
   {
     lex(false);
     cout << psp() << yytext << endl;
   }
 
+  if(nextToken == TOK_IDENT)
+  {
+    lex(false);
+    cout << psp() << yytext << endl;
+    if(symbolTable.find(yytext) == symbolTable.end()) {
+      throw "104: identifier not declared";
+    }
+  }
+
   if (nextToken == TOK_OPENPAREN)
   {
-    lex_throw(TOK_OPENPAREN, false);
+    lex(false);
+    cout << psp() << yytext << endl;
+    nextToken = yylex();
+    output("EXPRESSION");
     expression();
-    lex_throw(TOK_CLOSEPAREN);
+    lex_throw(TOK_CLOSEPAREN, false);
   }
 
   if (nextToken == TOK_NOT)
@@ -286,8 +301,15 @@ void factor()
     factor();
   }
 
-  /* TODO the last _ or some shit*/
+  if(nextToken == TOK_MINUS) {
+    lex(false);
+    cout << psp() << yytext << endl;
+    nextToken = yylex();
+    output("FACTOR");
+    factor();
+  }
   --level;
+  // cout << yytext << endl;
   cout << psp() << "exit <factor>" << endl;
 }
 
@@ -298,10 +320,11 @@ void term()
   output("FACTOR");
   factor();
 
-  lex();
-  cout << psp() << yytext << endl;
+  nextToken = yylex();
   while (nextToken == TOK_MULTIPLY || nextToken == TOK_DIVIDE || nextToken == TOK_AND)
   {
+    lex(false);
+    cout << psp() << yytext << endl;
     if (nextToken == TOK_MULTIPLY)
     {
       nextToken = yylex();
@@ -328,6 +351,7 @@ void term()
   }
 
   --level;
+  // cout << yytext << endl;
   cout << psp() << "exit <term>" << endl;
 }
 
@@ -337,10 +361,41 @@ void simple_exp()
   ++level;
   output("TERM");
   term();
-  /* todo */
+
+  if (nextToken == TOK_PLUS || nextToken == TOK_MINUS || nextToken == TOK_OR)
+  {
+    lex(false);
+    cout << psp() << yytext << endl;
+    nextToken = yylex();
+    output("TERM");
+    term();
+  }
+
   --level;
+  // cout << yytext << endl;
   cout << psp() << "exit <simple_exp>" << endl;
 }
+
+/*void simple_exp()
+{
+  cout << psp() << "enter <simple_exp>" << endl;
+  ++level;
+  output("TERM");
+  term();
+
+  if (nextToken == TOK_PLUS || nextToken == TOK_MINUS || nextToken == TOK_OR)
+  {
+    lex(false);
+    cout << psp() << yytext << endl;
+    nextToken = yylex();
+    output("TERM");
+    term();
+  }
+
+  --level;
+  // cout << yytext << endl;
+  cout << psp() << "exit <simple_exp>" << endl;
+}*/
 
 void expression()
 {
@@ -348,8 +403,18 @@ void expression()
   ++level;
   output("SIMPLE_EXP");
   simple_exp();
-  /* todo */
+
+  while (nextToken == TOK_EQUALTO || nextToken == TOK_LESSTHAN || nextToken == TOK_GREATERTHAN || nextToken == TOK_NOTEQUALTO)
+  {
+    lex(false);
+    cout << psp() << yytext << endl;
+    nextToken = yylex();
+    output("SIMPLE_EXP");
+    simple_exp();
+  }
+
   --level;
+  // cout << yytext << endl;
   cout << psp() << "exit <expression>" << endl;
 }
 
@@ -361,13 +426,12 @@ void write()
   lex_throw(TOK_OPENPAREN);
 
   nextToken = yylex();
-  if (nextToken == TOK_STRINGLIT)
-  {
-    output("WRITE");
-    cout << psp() << yytext << endl;
-  }
+  output("WRITE");
+  cout << psp() << yytext << endl;
 
-  /* TODO for ident or not those two*/
+  if(!(nextToken == TOK_IDENT || nextToken == TOK_STRINGLIT))
+    throw "134: illegal type of operand(s)";
+ 
 
   lex_throw(TOK_CLOSEPAREN);
   nextToken = yylex();
@@ -386,7 +450,7 @@ void read()
   nextToken = yylex();
   if (nextToken == TOK_IDENT)
   {
-    output("READ");
+    output("IDENTIFIER");
     cout << psp() << yytext << endl;
   }
 
@@ -397,25 +461,95 @@ void read()
   cout << psp() << "exit <read>" << endl;
 }
 
+void while_stmt()
+{
+  cout << psp() << "enter <while>" << endl;
+  ++level;
+
+  nextToken = yylex();
+  output("EXPRESSION");
+  expression();
+
+  if(nextToken == TOK_BEGIN) {
+    output("STATEMENT");
+    output("BEGIN");
+  }
+
+  statement();
+
+  --level;
+  cout << psp() << "exit <while>" << endl;
+}
+
+void if_stmt()
+{
+  cout << psp() << "enter <if>" << endl;
+  ++level;
+
+  nextToken = yylex();
+  output("EXPRESSION");
+  expression();
+
+  lex_throw(TOK_THEN, false);
+
+  nextToken = yylex();
+  output("STATEMENT");
+  if(nextToken == TOK_BEGIN)
+    output("BEGIN");
+  statement();
+
+  if (nextToken == TOK_ELSE)
+  {
+    --level;
+
+    output("ELSE");
+    cout << psp() << "enter <else>" << endl;
+    ++level;
+
+    nextToken = yylex();
+    output("STATEMENT");
+    if(nextToken == TOK_BEGIN)
+      output("BEGIN");
+    statement();
+
+    --level;
+    
+    ++level;
+  }
+
+  --level;
+  cout << psp() << "exit <if>" << endl;
+}
+
 void compound_stmt()
 {
   cout << psp() << "enter <compound_stmt>" << endl;
   ++level;
   nextToken = yylex();
   output("STATEMENT");
+  if(nextToken == TOK_BEGIN)
+    output("BEGIN");
   statement();
-  lex(false);
+
+  if(nextToken != TOK_END) {
+    lex(false);
+  }
 
   while (nextToken == TOK_SEMICOLON)
   {
     nextToken = yylex();
     output("STATEMENT");
+    if(nextToken == TOK_BEGIN)
+      output("BEGIN");
     statement();
-    lex(false);
+    if(nextToken != TOK_END) {
+      lex(false);
+    }
   }
 
-  lex_throw(TOK_END, false);
   --level;
+  lex_throw(TOK_END, false);
+  nextToken = yylex();
   cout << psp() << "exit <compound_stmt>" << endl;
 }
 
@@ -429,6 +563,7 @@ void assignment()
   nextToken = yylex();
   output("EXPRESSION");
   expression();
+
   --level;
   cout << psp() << "exit <assignment>" << endl;
 }
@@ -437,6 +572,7 @@ void statement()
 {
   if (!first_of_statement())
     throw "900: illegal type of statement";
+
 
   switch (nextToken)
   {
@@ -450,9 +586,11 @@ void statement()
     break;
   case TOK_IF:
     /* if statement */
+    if_stmt();
     break;
   case TOK_WHILE:
     /* while statement */
+    while_stmt();
     break;
   case TOK_READ:
     /* read statement */
@@ -475,7 +613,6 @@ void var()
 
   string idName;
   lex_throw(TOK_IDENT, false);
-  symbolTable.insert(yytext);
   idName = yytext;
 
   lex_throw(TOK_COLON);
@@ -491,6 +628,12 @@ void var()
   lex_throw(TOK_SEMICOLON);
 
   cout << psp() << "-- idName: |" << idName << "| idType: |" << idType << "| --" << endl;
+
+  if(symbolTable.find(idName) != symbolTable.end())
+  {
+    throw "101: identifier declared twice";
+  }
+  symbolTable.insert(idName);
 
   var();
 }

@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
         
     } catch (char const *errmsg) {
         cout << endl << "***ERROR:" << endl;
-        cout << "On line number " << yylineno << ", near " << yytext << ", error type ";
+        cout << "On line number " << yylineno << ", near |" << yytext << "|, error type ";
         cout << errmsg << endl;
         return EXIT_FAILURE;
     }
