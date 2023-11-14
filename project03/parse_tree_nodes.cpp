@@ -54,6 +54,45 @@ void IntLitNode::printTo(ostream& os) {
 	os << "(INTLIT: " << int_literal << ") ";
 }
 // ---------------------------------------------------------------------
+FloatLitNode::FloatLitNode(int level, float value) {
+  _level = level;
+  float_literal = value;
+}
+FloatLitNode::~FloatLitNode() {
+  if(printDelete)
+    cout << "Deleting FactorNode:FloatLitNode " << endl;
+	  // Nothing to do since the only members are not pointers
+}
+void FloatLitNode::printTo(ostream& os) {
+	os << "(FLOATLIT: " << float_literal << ") ";
+}
+// ---------------------------------------------------------------------
+MinusNode::MinusNode(int level, FactorNode* fn) {
+  _level = level;
+  factorNode = fn;
+}
+MinusNode::~MinusNode() {
+  if(printDelete)
+    cout << "Deleting FactorNode:MinusNode " << endl;
+	  // Nothing to do since the only members are not pointers
+}
+void MinusNode::printTo(ostream& os) {
+	os << "(MINUSNODE:  ) ";
+}
+// ---------------------------------------------------------------------
+NotNode::NotNode(int level, FactorNode* fn) {
+  _level = level;
+  factorNode = fn;
+}
+NotNode::~NotNode() {
+  if(printDelete)
+    cout << "Deleting FactorNode:NotNode " << endl;
+	  // Nothing to do since the only members are not pointers
+}
+void NotNode::printTo(ostream& os) {
+	os << "(NOTNODE:  ) ";
+}
+// ---------------------------------------------------------------------
 NestedExprNode::NestedExprNode(int level, ExprNode* en) {
   _level = level;
 	exprPtr = en;
@@ -78,7 +117,7 @@ ostream& operator<<(ostream& os, TermNode& tn) {
 	int length = tn.restFactorOps.size();
 	for (int i = 0; i < length; ++i) {
 		int op = tn.restFactorOps[i];
-    if (op == TOK_MULT_OP) {
+    if (op == TOK_MULTIPLY) {
       os << endl; indent(tn._level); os << "* ";
     } else {
       os << endl; indent(tn._level); os << "/ ";
@@ -106,17 +145,17 @@ ExprNode::ExprNode(int level) {
 }
 ostream& operator<<(ostream& os, ExprNode& en) {
   os << endl; indent(en._level); os << "(expr ";
-	os << *(en.firstTerm);
+	os << *(en.firstSimpleExp);
 
-	int length = en.restTermOps.size();
+	int length = en.restSimpleExpOps.size();
 	for (int i = 0; i < length; ++i) {
-		int op = en.restTermOps[i];
-    if (op == TOK_ADD_OP) {
+		int op = en.restSimpleExpOps[i];
+    if (op == TOK_PLUS) {
       os << endl; indent(en._level); os << "+ ";
     } else {
       os << endl; indent(en._level); os << "- ";
     }
-		os << *(en.restTerms[i]);
+		os << *(en.restSimpleExps[i]);
 	}
   os << endl; indent(en._level); os << "expr) ";
 	return os;
@@ -124,6 +163,43 @@ ostream& operator<<(ostream& os, ExprNode& en) {
 ExprNode::~ExprNode() {
   if(printDelete)
     cout << "Deleting ExprNode " << endl;
+	delete firstSimpleExp;
+	firstSimpleExp = nullptr;
+
+	int length = restSimpleExpOps.size();
+	for (int i = 0; i < length; ++i) {
+		delete restSimpleExps[i];
+		restSimpleExps[i] = nullptr;
+	}
+}
+
+// ---------------------------------------------------------------------
+SimpleExpNode::SimpleExpNode(int level) {
+  _level = level;
+}
+ostream& operator<<(ostream& os, SimpleExpNode& sen) {
+  os << endl; indent(sen._level); os << "(simple_exp ";
+	os << *(sen.firstTerm);
+
+	int length = sen.restTermOps.size();
+	for (int i = 0; i < length; ++i) {
+		int op = sen.restTermOps[i];
+    if (op == TOK_PLUS) {
+      os << endl; indent(sen._level); os << "+ ";
+    } else if (op == TOK_MINUS) {
+      os << endl; indent(sen._level); os << "- ";
+    } else {
+      os << endl; indent(sen._level); os << "OR ";
+    }
+		os << *(sen.restTerms[i]);
+	}
+  os << endl; indent(sen._level); os << "simple_exp) ";
+	return os;
+}
+SimpleExpNode::~SimpleExpNode() {
+  // cout << "DELETING SIMPLE EXP" << endl;
+  if(printDelete)
+    cout << "Deleting SimpleExpNode " << endl;
 	delete firstTerm;
 	firstTerm = nullptr;
 

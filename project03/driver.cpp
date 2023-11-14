@@ -15,6 +15,9 @@
 #include "parser.h"
 #include "parse_tree_nodes.h"
 
+// Ryan Michael Curry added:
+#include <cstring>
+
 using namespace std;
 
 extern "C"

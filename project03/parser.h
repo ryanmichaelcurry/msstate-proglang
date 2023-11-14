@@ -28,5 +28,6 @@ int lex();                   // return the next token
 ExprNode* expr();
 TermNode* term();
 FactorNode* factor();
+SimpleExpNode* simple_exp();
 
 #endif /* PARSER_H */
