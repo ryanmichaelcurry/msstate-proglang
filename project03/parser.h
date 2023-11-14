@@ -13,6 +13,8 @@
 #include "parse_tree_nodes.h"
 #include <stdlib.h>
 #include <iostream>
+#include <string>
+#include <set>
 
 extern "C" {
   extern FILE *yyin;       // input stream
@@ -29,5 +31,7 @@ ExprNode* expr();
 TermNode* term();
 FactorNode* factor();
 SimpleExpNode* simple_exp();
+ProgramNode* program();
+BlockNode* block();
 
 #endif /* PARSER_H */

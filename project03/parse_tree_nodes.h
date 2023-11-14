@@ -25,7 +25,15 @@ class TermNode;
 class FactorNode;
 class SimpleExpNode;
 
+class StatementNode;
+class AssignmentStmtNode;
+class IfStmtNode;
+class WhileStmtNode;
+class ReadStmtNode;
+class WriteStmtNode;
 
+class ProgramNode;
+class BlockNode;
 
 
 
@@ -177,24 +185,11 @@ public:
     void printTo(ostream & os);
 };
 
-// Ryan Michael Curry
 
-// declare classes
-class ProgramNode;
-class BlockNode;
 
-// ---------------------------------------------------------------------
-// Abstract class.
-// <program> -> PROGRAM IDENTIFIER ; <block>
-class ProgramNode {
-public:
-  int _level = 0;
-  BlockNode* block;
 
-  virtual void printTo(ostream &os) = 0;
-  virtual ~ProgramNode();                 
-};
-ostream& operator<<(ostream&, ProgramNode&); // Node print operator
+
+
 
 class SimpleExpNode {
 public:
@@ -205,23 +200,102 @@ public:
 
   SimpleExpNode(int level);
   ~SimpleExpNode();
+
 };
 ostream& operator<<(ostream&, SimpleExpNode&); // Node print operator
 
 
+class StatementNode {
+public:
+  int _level = 0;
+
+  virtual void printTo(ostream & os) = 0;
+  virtual ~StatementNode() = 0;
+};
+ostream& operator<<(ostream&, StatementNode&);
+
+class AssignmentStmtNode : public StatementNode {
+public:
+  string* ident = nullptr;
+  ExprNode* expression = nullptr;
+  void printTo(ostream & os);
+  AssignmentStmtNode(int level, string ident, ExprNode* expression);
+  ~AssignmentStmtNode();
+};
+
+class CompoundStmtNode : public StatementNode {
+public:
+  StatementNode* statement = nullptr;
+  void printTo(ostream & os);
+  CompoundStmtNode(int level, StatementNode* statement);
+  ~CompoundStmtNode();
+};
+
+class IfStmtNode : public StatementNode {
+public:
+  ExprNode* expression = nullptr;
+  StatementNode* thenStatement = nullptr;
+  StatementNode* elseStatement = nullptr;
+  void printTo(ostream & os);
+  IfStmtNode(int level, ExprNode* expression, StatementNode* thenStatement, StatementNode* elseStatement);
+  ~IfStmtNode();
+};
+
+class WhileStmtNode : public StatementNode {
+public:
+  ExprNode* expression = nullptr;
+  StatementNode* statement = nullptr;
+  void printTo(ostream & os);
+  WhileStmtNode(int level, ExprNode* expression, StatementNode* statement);
+  ~WhileStmtNode();
+};
+
+class ReadStmtNode : public StatementNode {
+public:
+  string* ident = nullptr;
+  void printTo(ostream & os);
+  ReadStmtNode(int level, string ident);
+  ~ReadStmtNode();
+};
+
+class WriteStmtNode : public StatementNode {
+public:
+  string* ident = nullptr;
+  string* literal = nullptr;
+  void printTo(ostream & os);
+  WriteStmtNode(int level, string ident, string literal);
+  ~WriteStmtNode();
+};
 
 
 // ---------------------------------------------------------------------
 // Abstract class.
 // <block> -> PROGRAM IDENTIFIER ; <block>
+class BlockNode {
+public:
+  int _level = 0;
 
-class StatementNode;
-class AssignmentStmtNode;
-class CompoundStmtNode;
-class IfStmtNode;
-class WhileStmtNode;
-class ReadStmtNode;
-class WriteStmtNode;
+  vector<StatementNode*> statements;
+
+  BlockNode(int level);
+  ~BlockNode();
+};
+ostream& operator<<(ostream&, BlockNode&);
+
+// ---------------------------------------------------------------------
+// Abstract class.
+// <program> -> PROGRAM IDENTIFIER ; <block>
+class ProgramNode {
+public:
+  int _level = 0;
+  BlockNode* block;
+
+  ProgramNode(int level);
+  ~ProgramNode();                 
+};
+ostream& operator<<(ostream&, ProgramNode&); // Node print operator
+
+
 
 
 #endif /* PARSE_TREE_NODES_H */
