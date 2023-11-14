@@ -303,6 +303,47 @@ void IfStmtNode::printTo(ostream& os) {
   }
   os << endl; indent(_level); os << "if_stmt) ";
 }
+// ---------------------------------------------------------------------
+WhileStmtNode::WhileStmtNode(int level, ExprNode* expression, StatementNode* statement) {
+  _level = level;
+  this->expression = expression;
+  this->statement = statement;
+}
+WhileStmtNode::~WhileStmtNode() {
+  if(printDelete)
+    cout << "Deleting StatementNode:WhileStmtNode " << endl;
+    delete statement;
+    statement = nullptr;
+}
+void WhileStmtNode::printTo(ostream& os) {
+	os << endl; indent(_level); os << "(while_stmt ";
+	os << *(statement);
+  os << endl; indent(_level); os << "while_stmt) ";
+}
+
+
+// ---------------------------------------------------------------------
+WriteStmtNode::WriteStmtNode(int level, string ident, string literal) {
+  _level = level;
+  this->ident = new string(ident);
+  this->literal = new string(literal);
+}
+WriteStmtNode::~WriteStmtNode() {
+  if(printDelete)
+    cout << "Deleting StatementNode:WhileStmtNode " << endl;
+    delete ident;
+    ident = nullptr;
+    delete literal;
+    literal = nullptr;
+}
+void WhileStmtNode::printTo(ostream& os) {
+	os << endl; indent(_level); os << "(while_stmt ";
+  os << "(NOTNODE:  ) ";
+	os << *(statement);
+  os << endl; indent(_level); os << "while_stmt) ";
+}
+
+
 
 
 
