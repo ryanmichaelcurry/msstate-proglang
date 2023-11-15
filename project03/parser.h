@@ -23,6 +23,7 @@ extern "C" {
 }
 extern int nextToken;        // next token returned by lexer
 extern bool printParse;      // shall tree be printed while parsing?
+extern set<string> symbolTable; // Holds the symbols in the interpreted program
 
 /* Function declarations */
 int lex();                   // return the next token

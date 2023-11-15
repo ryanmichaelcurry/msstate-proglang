@@ -1,0 +1,9 @@
+INFO: Using the 3-bad_prog.pas file for input
+found |PROGRAM| PROGRAM
+Enter <program>
+|  found |BADPROG| IDENTIFIER
+|  found |;| SEMICOLON
+|  found |BEGIN| BLOCK
+|  Enter <block>
+|  |  Enter <compound_stmt>
+|  |  |  found |IF| STATEMENT

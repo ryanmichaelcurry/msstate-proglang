@@ -14,7 +14,7 @@ bool printDelete = false;   // shall we print deleting the tree?
 // Indent according to tree level
 static void indent(int level) {
   for (int i = 0; i < level; i++)
-    cout << ("| ");
+    cout << ("|  ");
 }
 // ---------------------------------------------------------------------
 FactorNode::~FactorNode() {}
@@ -28,12 +28,12 @@ ostream& operator<<(ostream& os, FactorNode& fn) {
 }
 // ---------------------------------------------------------------------
 IdNode::IdNode(int level, string name) {
-  _level = level;
+  _level = level - 1;
   id = new string(name);
 }
 IdNode::~IdNode() {
   if(printDelete) 
-    cout << "Deleting FactorNode:IdNode " << endl;
+    cout << "Deleting FactorNode:IdNode" << endl;
 	delete id;
 	id = nullptr;
 }
@@ -42,12 +42,12 @@ void IdNode::printTo(ostream& os) {
 }
 // ---------------------------------------------------------------------
 IntLitNode::IntLitNode(int level, int value) {
-  _level = level;
+  _level = level - 1;
   int_literal = value;
 }
 IntLitNode::~IntLitNode() {
   if(printDelete)
-    cout << "Deleting FactorNode:IntLitNode " << endl;
+    cout << "Deleting FactorNode:IntLitNode" << endl;
 	  // Nothing to do since the only members are not pointers
 }
 void IntLitNode::printTo(ostream& os) {
@@ -55,12 +55,12 @@ void IntLitNode::printTo(ostream& os) {
 }
 // ---------------------------------------------------------------------
 FloatLitNode::FloatLitNode(int level, float value) {
-  _level = level;
+  _level = level - 1;
   float_literal = value;
 }
 FloatLitNode::~FloatLitNode() {
   if(printDelete)
-    cout << "Deleting FactorNode:FloatLitNode " << endl;
+    cout << "Deleting FactorNode:FloatLitNode" << endl;
 	  // Nothing to do since the only members are not pointers
 }
 void FloatLitNode::printTo(ostream& os) {
@@ -68,12 +68,12 @@ void FloatLitNode::printTo(ostream& os) {
 }
 // ---------------------------------------------------------------------
 MinusNode::MinusNode(int level, FactorNode* fn) {
-  _level = level;
+  _level = level - 1;
   factorNode = fn;
 }
 MinusNode::~MinusNode() {
   if(printDelete)
-    cout << "Deleting FactorNode:MinusNode " << endl;
+    cout << "Deleting FactorNode:MinusNode" << endl;
 	  // Nothing to do since the only members are not pointers
 }
 void MinusNode::printTo(ostream& os) {
@@ -81,12 +81,12 @@ void MinusNode::printTo(ostream& os) {
 }
 // ---------------------------------------------------------------------
 NotNode::NotNode(int level, FactorNode* fn) {
-  _level = level;
+  _level = level - 1;
   factorNode = fn;
 }
 NotNode::~NotNode() {
   if(printDelete)
-    cout << "Deleting FactorNode:NotNode " << endl;
+    cout << "Deleting FactorNode:NotNode" << endl;
 	  // Nothing to do since the only members are not pointers
 }
 void NotNode::printTo(ostream& os) {
@@ -94,7 +94,7 @@ void NotNode::printTo(ostream& os) {
 }
 // ---------------------------------------------------------------------
 NestedExprNode::NestedExprNode(int level, ExprNode* en) {
-  _level = level;
+  _level = level - 1;
 	exprPtr = en;
 }
 void NestedExprNode::printTo(ostream& os) {
@@ -102,13 +102,13 @@ void NestedExprNode::printTo(ostream& os) {
 }
 NestedExprNode::~NestedExprNode() {
   if(printDelete)
-    cout << "Deleting FactorNode:NestedExprNode " << endl;
+    cout << "Deleting FactorNode:NestedExprNode" << endl;
   delete exprPtr;
   exprPtr = nullptr;
 }
 // ---------------------------------------------------------------------
 TermNode::TermNode(int level) {
-  _level = level;
+  _level = level - 1;
 }
 ostream& operator<<(ostream& os, TermNode& tn) {
   os << endl; indent(tn._level); os << "(term ";
@@ -141,7 +141,7 @@ TermNode::~TermNode() {
 }
 // ---------------------------------------------------------------------
 ExprNode::ExprNode(int level) {
-  _level = level;
+  _level = level - 1;
 }
 ostream& operator<<(ostream& os, ExprNode& en) {
   os << endl; indent(en._level); os << "(expr ";
@@ -175,7 +175,7 @@ ExprNode::~ExprNode() {
 
 // ---------------------------------------------------------------------
 SimpleExpNode::SimpleExpNode(int level) {
-  _level = level;
+  _level = level - 1;
 }
 ostream& operator<<(ostream& os, SimpleExpNode& sen) {
   os << endl; indent(sen._level); os << "(simple_exp ";
@@ -199,7 +199,7 @@ ostream& operator<<(ostream& os, SimpleExpNode& sen) {
 SimpleExpNode::~SimpleExpNode() {
   // cout << "DELETING SIMPLE EXP" << endl;
   if(printDelete)
-    cout << "Deleting SimpleExpNode " << endl;
+    cout << "Deleting SimpleExpNode" << endl;
 	delete firstTerm;
 	firstTerm = nullptr;
 
@@ -241,13 +241,13 @@ ostream& operator<<(ostream& os, StatementNode& node) {
 
 // ---------------------------------------------------------------------
 AssignmentStmtNode::AssignmentStmtNode(int level, string ident, ExprNode* expression) {
-  _level = level;
+  _level = level - 1;
   this->ident = new string(ident);
   this->expression = expression;
 }
 AssignmentStmtNode::~AssignmentStmtNode() {
   if(printDelete)
-    cout << "Deleting StatementNode:AssignmentStmtNode " << endl;
+    cout << "Deleting StatementNode:AssignmentStmtNode" << endl;
 	  //TODO: delete *ident;
     delete expression;
     expression = nullptr;
@@ -258,31 +258,38 @@ void AssignmentStmtNode::printTo(ostream& os) {
   os << endl; indent(_level); os << "assignment_stmt) ";
 }
 // ---------------------------------------------------------------------
-CompoundStmtNode::CompoundStmtNode(int level, StatementNode* statement) {
-  _level = level;
-  this->statement = statement;
+CompoundStmtNode::CompoundStmtNode(int level) {
+  _level = level - 1;
+
 }
 CompoundStmtNode::~CompoundStmtNode() {
   if(printDelete)
-    cout << "Deleting StatementNode:CompoundStmtNode " << endl;
-    delete statement;
-    statement = nullptr;
+    cout << "Deleting StatementNode:CompoundStmtNode" << endl;
+
+    int length = statements.size();
+	for (int i = 0; i < length; ++i) {
+		delete statements[i];
+		statements[i] = nullptr;
+	}
 }
 void CompoundStmtNode::printTo(ostream& os) {
-	os << endl; indent(_level); os << "(compound_stmt ";
-	os << *(statement);
-  os << endl; indent(_level); os << "compound_stmt) ";
+	os << endl; indent(_level); os << "(compound_stmt";
+  int length = statements.size();
+	for (int i = 0; i < length; ++i) {
+		os << *(statements[i]);
+	}
+  os << endl; indent(_level); os << "compound_stmt)";
 }
 // ---------------------------------------------------------------------
 IfStmtNode::IfStmtNode(int level, ExprNode* expression, StatementNode* thenStatement, StatementNode* elseStatement = nullptr) {
-  _level = level;
+  _level = level - 1;
   this->expression = expression;
   this->thenStatement = thenStatement;
   this->elseStatement = elseStatement;
 }
 IfStmtNode::~IfStmtNode() {
   if(printDelete)
-    cout << "Deleting StatementNode:IfStmtNode " << endl;
+    cout << "Deleting StatementNode:IfStmtNode" << endl;
 	  delete expression;
     expression = nullptr;
     delete thenStatement;
@@ -305,13 +312,13 @@ void IfStmtNode::printTo(ostream& os) {
 }
 // ---------------------------------------------------------------------
 WhileStmtNode::WhileStmtNode(int level, ExprNode* expression, StatementNode* statement) {
-  _level = level;
+  _level = level - 1;
   this->expression = expression;
   this->statement = statement;
 }
 WhileStmtNode::~WhileStmtNode() {
   if(printDelete)
-    cout << "Deleting StatementNode:WhileStmtNode " << endl;
+    cout << "Deleting StatementNode:WhileStmtNode" << endl;
     delete statement;
     statement = nullptr;
 }
@@ -324,23 +331,39 @@ void WhileStmtNode::printTo(ostream& os) {
 
 // ---------------------------------------------------------------------
 WriteStmtNode::WriteStmtNode(int level, string ident, string literal) {
-  _level = level;
+  _level = level - 1;
   this->ident = new string(ident);
   this->literal = new string(literal);
 }
 WriteStmtNode::~WriteStmtNode() {
   if(printDelete)
-    cout << "Deleting StatementNode:WhileStmtNode " << endl;
+    cout << "Deleting StatementNode:WriteStmtNode" << endl;
     delete ident;
     ident = nullptr;
     delete literal;
     literal = nullptr;
 }
-void WhileStmtNode::printTo(ostream& os) {
-	os << endl; indent(_level); os << "(while_stmt ";
-  os << "(NOTNODE:  ) ";
-	os << *(statement);
-  os << endl; indent(_level); os << "while_stmt) ";
+void WriteStmtNode::printTo(ostream& os) {
+	os << endl; indent(_level); os << "(write_stmt ";
+  if(ident->empty()) os << "( " << *(literal) << " )";
+  os << endl; indent(_level); os << "write_stmt)";
+}
+
+// ---------------------------------------------------------------------
+ReadStmtNode::ReadStmtNode(int level, string ident) {
+  _level = level - 1;
+  this->ident = new string(ident);
+}
+ReadStmtNode::~ReadStmtNode() {
+  if(printDelete)
+    cout << "Deleting StatementNode:ReadStmtNode" << endl;
+    delete ident;
+    ident = nullptr;
+}
+void ReadStmtNode::printTo(ostream& os) {
+	os << endl; indent(_level); os << "(write_stmt ";
+  if(ident->empty()) os << "( " << *(ident) << " )";
+  os << endl; indent(_level); os << "write_stmt)";
 }
 
 
@@ -372,7 +395,7 @@ void WhileStmtNode::printTo(ostream& os) {
 
 // ---------------------------------------------------------------------
 BlockNode::BlockNode(int level) {
-  _level = level;
+  _level = level - 1;
 }
 ostream& operator<<(ostream& os, BlockNode& bn) {
   os << endl; indent(bn._level); os << "(block ";
@@ -388,7 +411,7 @@ ostream& operator<<(ostream& os, BlockNode& bn) {
 BlockNode::~BlockNode() {
   // cout << "DELETING SIMPLE EXP" << endl;
   if(printDelete)
-    cout << "Deleting BlockNode " << endl;
+    cout << "Deleting BlockNode" << endl;
 
 	int length = statements.size();
 	for (int i = 0; i < length; ++i) {
@@ -399,7 +422,7 @@ BlockNode::~BlockNode() {
 
 // ---------------------------------------------------------------------
 ProgramNode::ProgramNode(int level) {
-  _level = level;
+  _level = level - 1;
 }
 ostream& operator<<(ostream& os, ProgramNode& pn) {
   os << endl; indent(pn._level); os << "(program ";
@@ -410,7 +433,7 @@ ostream& operator<<(ostream& os, ProgramNode& pn) {
 ProgramNode::~ProgramNode() {
   // cout << "DELETING SIMPLE EXP" << endl;
   if(printDelete)
-    cout << "Deleting ProgramNode " << endl;
+    cout << "Deleting ProgramNode" << endl;
 
 	delete block;
 	block = nullptr;

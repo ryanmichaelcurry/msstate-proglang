@@ -225,9 +225,9 @@ public:
 
 class CompoundStmtNode : public StatementNode {
 public:
-  StatementNode* statement = nullptr;
+  vector<StatementNode*> statements;
   void printTo(ostream & os);
-  CompoundStmtNode(int level, StatementNode* statement);
+  CompoundStmtNode(int level);
   ~CompoundStmtNode();
 };
 

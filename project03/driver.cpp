@@ -14,8 +14,6 @@
 #include "lexer.h"
 #include "parser.h"
 #include "parse_tree_nodes.h"
-
-// Ryan Michael Curry added:
 #include <cstring>
 
 using namespace std;
@@ -87,9 +85,8 @@ int main(int argc, char* argv[])
   // Create the root of the parse tree
   ProgramNode* root = nullptr;
 
-  lex();  // prime the pump (get first token)
+  nextToken = yylex();  // prime the pump (get first token)
   do {
-    // Start symbol is <expr>
     root = program(); 
   } while(nextToken != TOK_EOF);
 
@@ -97,6 +94,14 @@ int main(int argc, char* argv[])
     fclose(yyin);
 
   yylex_destroy();
+
+  if(printParse) {
+    // Tell the world about our success!!
+    cout << endl << "=== GO BULLDOGS! Your parse was successful! ===" << endl;
+  
+
+
+  }
 
   // Printing and Deleting the tree all result in 
   // the same in-order traversal of the tree as parsing.  All
@@ -106,6 +111,15 @@ int main(int argc, char* argv[])
     cout << endl << "*** Print the Tree ***" << endl;
     cout << *root << endl << endl;
   }
+  cout << endl;
+
+  // Print out the symbol table
+  cout << "*** User Defined Symbols ***" << endl;
+  set<string>::iterator it;
+  for (it = symbolTable.begin(); it != symbolTable.end(); ++it) {
+      cout << *it << endl;
+  }
+  cout << endl;
 
   cout << "*** Delete the Tree ***" << endl;
   delete root;
