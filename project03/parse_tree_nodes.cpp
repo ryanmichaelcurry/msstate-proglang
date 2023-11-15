@@ -258,9 +258,9 @@ AssignmentStmtNode::AssignmentStmtNode(int level, string ident, ExprNode* expres
 AssignmentStmtNode::~AssignmentStmtNode() {
   if(printDelete)
     cout << "Deleting StatementNode:AssignmentStmtNode" << endl;
-	  delete ident;
-    delete expression;
-    expression = nullptr;
+  delete ident;
+  delete expression;
+  expression = nullptr;
 }
 void AssignmentStmtNode::printTo(ostream& os) {
 	os << endl; indent(_level); os << "(assignment_stmt ( " << *ident << " := )";
@@ -300,12 +300,12 @@ IfStmtNode::IfStmtNode(int level, ExprNode* expression, StatementNode* thenState
 IfStmtNode::~IfStmtNode() {
   if(printDelete)
     cout << "Deleting StatementNode:IfStmtNode" << endl;
-	  delete expression;
-    expression = nullptr;
-    delete thenStatement;
-    thenStatement = nullptr;
-    delete elseStatement;
-    elseStatement = nullptr;
+	delete expression;
+  expression = nullptr;
+  delete thenStatement;
+  thenStatement = nullptr;
+  delete elseStatement;
+  elseStatement = nullptr;
 }
 void IfStmtNode::printTo(ostream& os) {
 	os << endl; indent(_level); os << "(if_stmt ";
@@ -329,10 +329,10 @@ WhileStmtNode::WhileStmtNode(int level, ExprNode* expression, StatementNode* sta
 WhileStmtNode::~WhileStmtNode() {
   if(printDelete)
     cout << "Deleting StatementNode:WhileStmtNode" << endl;
-    delete expression;
-    expression = nullptr;
-    delete statement;
-    statement = nullptr;
+  delete expression;
+  expression = nullptr;
+  delete statement;
+  statement = nullptr;
 }
 void WhileStmtNode::printTo(ostream& os) {
 	os << endl; indent(_level); os << "(while_stmt ";
@@ -351,10 +351,10 @@ WriteStmtNode::WriteStmtNode(int level, string ident, string literal) {
 WriteStmtNode::~WriteStmtNode() {
   if(printDelete)
     cout << "Deleting StatementNode:WriteStmtNode" << endl;
-    delete ident;
-    ident = nullptr;
-    delete literal;
-    literal = nullptr;
+  delete ident;
+  ident = nullptr;
+  delete literal;
+  literal = nullptr;
 }
 void WriteStmtNode::printTo(ostream& os) {
 	os << endl; indent(_level); os << "(write_stmt ";
@@ -371,8 +371,8 @@ ReadStmtNode::ReadStmtNode(int level, string ident) {
 ReadStmtNode::~ReadStmtNode() {
   if(printDelete)
     cout << "Deleting StatementNode:ReadStmtNode" << endl;
-    delete ident;
-    ident = nullptr;
+  delete ident;
+  ident = nullptr;
 }
 void ReadStmtNode::printTo(ostream& os) {
 	os << endl; indent(_level); os << "(read_stmt ( " << *ident << " )";
