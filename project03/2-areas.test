@@ -171,3 +171,112 @@ enter <program>
 |  |  |  |  EAREA
 |  |  |  |  found |)| CLOSEPAREN
 |  |  |  exit <write>
+|  |  found |END| END
+|  |  exit <compound_stmt>
+|  exit <block>
+exit <program>
+
+=== GO BULLDOGS! Your parse was successful! ===
+
+*** Print the Tree ***
+
+(program 
+|  (block 
+|  |  (compound_stmt
+|  |  |  (assignment_stmt 
+|  |  |  |  (expr 
+|  |  |  |  |  (simple_exp 
+|  |  |  |  |  |  (term 
+|  |  |  |  |  |  |  (factor (FLOATLIT: 3) 
+|  |  |  |  |  |  |  factor) 
+|  |  |  |  |  |  term) 
+|  |  |  |  |  simple_exp) 
+|  |  |  |  expr) 
+|  |  |  assignment_stmt) 
+|  |  |  (write_stmt ( 'Input height: ' )
+|  |  |  write_stmt)
+|  |  |  (read_stmt 
+|  |  |  read_stmt)
+|  |  |  (write_stmt ( 'Input width: ' )
+|  |  |  write_stmt)
+|  |  |  (read_stmt 
+|  |  |  read_stmt)
+|  |  |  (assignment_stmt 
+|  |  |  |  (expr 
+|  |  |  |  |  (simple_exp 
+|  |  |  |  |  |  (term 
+|  |  |  |  |  |  |  (factor (IDENT: HEIGHT) 
+|  |  |  |  |  |  |  factor) 
+|  |  |  |  |  |  * 
+|  |  |  |  |  |  |  (factor (IDENT: WIDTH) 
+|  |  |  |  |  |  |  factor) 
+|  |  |  |  |  |  term) 
+|  |  |  |  |  simple_exp) 
+|  |  |  |  expr) 
+|  |  |  assignment_stmt) 
+|  |  |  (assignment_stmt 
+|  |  |  |  (expr 
+|  |  |  |  |  (simple_exp 
+|  |  |  |  |  |  (term 
+|  |  |  |  |  |  |  (factor (IDENT: PI) 
+|  |  |  |  |  |  |  factor) 
+|  |  |  |  |  |  * 
+|  |  |  |  |  |  |  (factor (IDENT: HEIGHT) 
+|  |  |  |  |  |  |  factor) 
+|  |  |  |  |  |  * 
+|  |  |  |  |  |  |  (factor (IDENT: WIDTH) 
+|  |  |  |  |  |  |  factor) 
+|  |  |  |  |  |  term) 
+|  |  |  |  |  simple_exp) 
+|  |  |  |  expr) 
+|  |  |  assignment_stmt) 
+|  |  |  (write_stmt ( 'RAREA = ' )
+|  |  |  write_stmt)
+|  |  |  (write_stmt 
+|  |  |  write_stmt)
+|  |  |  (write_stmt ( 'EAREA = ' )
+|  |  |  write_stmt)
+|  |  |  (write_stmt 
+|  |  |  write_stmt)
+|  |  compound_stmt)
+|  block) 
+program) 
+
+
+*** User Defined Symbols ***
+EAREA
+HEIGHT
+PI
+RAREA
+WIDTH
+
+*** Delete the Tree ***
+Deleting ProgramNode
+Deleting BlockNode
+Deleting StatementNode:CompoundStmtNode
+Deleting StatementNode:AssignmentStmtNode
+Deleting ExprNode 
+Deleting SimpleExpNode
+Deleting TermNode 
+Deleting FactorNode:FloatLitNode
+Deleting StatementNode:WriteStmtNode
+Deleting StatementNode:ReadStmtNode
+Deleting StatementNode:WriteStmtNode
+Deleting StatementNode:ReadStmtNode
+Deleting StatementNode:AssignmentStmtNode
+Deleting ExprNode 
+Deleting SimpleExpNode
+Deleting TermNode 
+Deleting FactorNode:IdNode
+Deleting FactorNode:IdNode
+Deleting StatementNode:AssignmentStmtNode
+Deleting ExprNode 
+Deleting SimpleExpNode
+Deleting TermNode 
+Deleting FactorNode:IdNode
+Deleting FactorNode:IdNode
+Deleting FactorNode:IdNode
+Deleting StatementNode:WriteStmtNode
+Deleting StatementNode:WriteStmtNode
+Deleting StatementNode:WriteStmtNode
+Deleting StatementNode:WriteStmtNode

@@ -361,9 +361,9 @@ ReadStmtNode::~ReadStmtNode() {
     ident = nullptr;
 }
 void ReadStmtNode::printTo(ostream& os) {
-	os << endl; indent(_level); os << "(write_stmt ";
+	os << endl; indent(_level); os << "(read_stmt ";
   if(ident->empty()) os << "( " << *(ident) << " )";
-  os << endl; indent(_level); os << "write_stmt)";
+  os << endl; indent(_level); os << "read_stmt)";
 }
 
 

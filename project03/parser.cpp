@@ -137,6 +137,7 @@ FactorNode* factor() {
         cout << psp() << yytext << endl;
       }
       newFactorNode = new FloatLitNode(level, atoi(yytext));
+      //nextToken = yylex();
       break;
 
     case TOK_OPENPAREN:
@@ -147,27 +148,24 @@ FactorNode* factor() {
         error();
 
       newFactorNode = new NestedExprNode(level, expr());
-
-      if (nextToken == TOK_CLOSEPAREN) {
-        if(printParse) output("CLOSEPAREN");
-        nextToken = lex();
-      }
-      else
-        throw "<expr> does not end with )";
+      cout << psp() << yytext << endl;
+      if(nextToken != TOK_CLOSEPAREN) throw "<expr> does not end with )";
+      if(printParse) output("CLOSEPAREN");
+      //nextToken = yylex();
       break;
 
 	}
 
   if (nextToken == TOK_NOT) {
     if(printParse) output("NOT");
+    nextToken = yylex();
     newFactorNode = new NotNode(level, factor());
-    nextToken = lex();
   }
 
-  else if (nextToken == TOK_MINUS) {
+  if (nextToken == TOK_MINUS) {
       if(printParse) output("MINUS");
+      nextToken = yylex();
       newFactorNode = new MinusNode(level, factor());
-      nextToken = lex();
   }
 
 /*
@@ -206,6 +204,7 @@ TermNode* term() {
   /* Parse the first factor */
   newTermNode->firstFactor = factor();
   nextToken = yylex();
+  //cout << yytext << endl;
 
   /* As long as the next token is * or /, get the
      next token and parse the next factor */
@@ -222,11 +221,16 @@ TermNode* term() {
       if(printParse) output("AND");
       break;
     }
+    cout << psp() << yytext << endl;
     newTermNode->restFactorOps.push_back(nextToken);
     nextToken = yylex();
     newTermNode->restFactors.push_back(factor());
     nextToken = yylex();
   }
+  cout << psp() << yytext << endl;
+  
+
+  cout << psp() << yytext << endl;
 
   level = level - 1;
   if(printParse) {
@@ -258,15 +262,33 @@ ExprNode* expr() {
 
   // As long as the next token is + or -, get the next token and parse the next term
   while (nextToken == TOK_EQUALTO || nextToken == TOK_LESSTHAN || nextToken == TOK_GREATERTHAN || nextToken == TOK_NOTEQUALTO) {
-    if(printParse) output();
+    if(printParse) {
+    switch (nextToken)
+    {
+    case TOK_EQUALTO:
+      output("EQUALTO");
+      break;
+    case TOK_LESSTHAN:
+      output("LESSTHAN");
+      break;
+    case TOK_GREATERTHAN:
+      output("GREATERTHAN");
+      break;
+    case TOK_NOTEQUALTO:
+      output("NOTEQUALTO");
+      break;
+    default:
+      break;
+    }
+    }
     newExprNode->restSimpleExpOps.push_back(nextToken);
-    lex();
+    nextToken = yylex();
     newExprNode->restSimpleExps.push_back(simple_exp());
   }
 
   level = level - 1;
   if(printParse) {
-    cout << psp() << "enter <expression>" << endl;
+    cout << psp() << "exit <expression>" << endl;
   }
   return newExprNode;
 }
@@ -295,7 +317,7 @@ SimpleExpNode* simple_exp() {
     if(printParse) output("TERM");
     cout << "SIMPLE EXP" << nextToken << endl;
     newSimpleExpNode->restTermOps.push_back(nextToken);
-    lex();
+    nextToken = yylex();
     newSimpleExpNode->restTerms.push_back(term());
   }
 
@@ -309,6 +331,51 @@ bool first_of_simple_exp() {
   return nextToken == TOK_INTLIT || nextToken == TOK_FLOATLIT || nextToken == TOK_IDENT || nextToken == TOK_OPENPAREN || nextToken == TOK_NOT || nextToken == TOK_MINUS;
 }
 
+IfStmtNode* if_stmt() {
+  if(printParse) {
+    cout << psp() << "enter <if>" << endl;
+  }
+  level = level + 1;
+  
+  nextToken = yylex();
+  if(printParse) output("EXPRESSION");
+
+  ExprNode* newExprNode = expr();
+
+  cout << yytext << endl;
+  if(nextToken != TOK_THEN) throw 'TODO';
+
+  nextToken = yylex();
+  if(printParse) output("STATEMENT");
+  if(nextToken == TOK_BEGIN) output("BEGIN");
+
+  StatementNode* thenStatement = statement();
+  nextToken = yylex();
+  StatementNode* elseStatement;
+
+  cout << yytext << endl;
+  if(nextToken == TOK_ELSE) {
+    --level;
+    if(printParse){
+      output("ELSE");
+      cout << psp() << "enter <else>" << endl;
+    }
+    ++level;
+
+    nextToken = yylex();
+    if(printParse) output("STATEMENT");
+    if(nextToken == TOK_BEGIN && printParse) output("BEGIN");
+    elseStatement = statement();
+  }
+
+  level = level - 1;
+  if(printParse) {
+    cout << psp() << "exit <if>" << endl;
+  }
+
+  IfStmtNode* newIfStmtNode = new IfStmtNode(level, newExprNode, thenStatement, elseStatement);
+  return newIfStmtNode;
+}
 
 // TODO: more stuff here
 AssignmentStmtNode* assignment() {
@@ -317,7 +384,7 @@ AssignmentStmtNode* assignment() {
   }
   level = level + 1;
 
-  if(nextToken != TOK_IDENT) throw "TODO";
+  if(nextToken != TOK_IDENT) throw 'TODO';
 
   if(printParse) {
     output("IDENTIFIER");
@@ -326,7 +393,7 @@ AssignmentStmtNode* assignment() {
   string ident = yytext;
 
   nextToken = yylex();
-  if(nextToken != TOK_ASSIGN) throw "TODO";
+  if(nextToken != TOK_ASSIGN) throw 'TODO';
 
   if(printParse) output("ASSIGN");
   nextToken = yylex();
@@ -364,7 +431,7 @@ CompoundStmtNode* compound_stmt() {
     nextToken = yylex();
     if(printParse) output("STATEMENT");
     if(nextToken == TOK_BEGIN)
-      if(printParse) ("BEGIN");
+      if(printParse) output("BEGIN");
     newCompoundStmtNode->statements.push_back(statement());
     if(nextToken != TOK_END) {
       if(printParse) {output("SEMICOLON");} // TODO: do we need to print semicolons? do we check for end?
@@ -372,11 +439,11 @@ CompoundStmtNode* compound_stmt() {
   }
 
   level = level - 1;
-  nextToken = yylex();
-  if(nextToken != TOK_END) throw "TODO";
+  //nextToken = yylex();
+  if(nextToken != TOK_END) throw 'TODO';
   if(printParse) {
     output("END");
-    cout << psp() << "exit <compound_stmt>" << endl;
+    cout << psp() << "exit <compound_stmt>" << endl; 
   }
 
   return newCompoundStmtNode;
@@ -392,12 +459,12 @@ ReadStmtNode* read() {
 
   nextToken = yylex();
   // (
-  if(nextToken != TOK_OPENPAREN) throw "TODO";
+  if(nextToken != TOK_OPENPAREN) throw 'TODO';
   if(printParse) output("OPENPAREN");
   // 'Hello World'
   nextToken = yylex();
 
-  if(nextToken != TOK_IDENT) throw "TODO";
+  if(nextToken != TOK_IDENT) throw 'TODO';
   if(printParse) {
     output("IDENTIFIER");
     cout << psp() << yytext << endl;
@@ -411,7 +478,7 @@ ReadStmtNode* read() {
     cout << psp() << yytext << endl;
   }
   nextToken = yylex();
-  if(nextToken != TOK_CLOSEPAREN) throw "TODO";
+  if(nextToken != TOK_CLOSEPAREN) throw 'TODO';
   if(printParse) output("CLOSEPAREN");
   nextToken = yylex();
 
@@ -433,7 +500,7 @@ WriteStmtNode* write() {
 
   nextToken = yylex();
   // (
-  if(nextToken != TOK_OPENPAREN) throw "TODO";
+  if(nextToken != TOK_OPENPAREN) throw 'TODO';
   if(printParse) output("OPENPAREN");
   // 'Hello World'
   nextToken = yylex();
@@ -450,7 +517,7 @@ WriteStmtNode* write() {
     cout << psp() << yytext << endl;
   }
   nextToken = yylex();
-  if(nextToken != TOK_CLOSEPAREN) throw "TODO";
+  if(nextToken != TOK_CLOSEPAREN) throw 'TODO';
   if(printParse) output("CLOSEPAREN");
   nextToken = yylex();
 
@@ -479,7 +546,7 @@ StatementNode* statement() {
     break;
   case TOK_IF:
     /* if statement */
-    //if_stmt();
+    return if_stmt();
     break;
   case TOK_WHILE:
     /* while statement */
@@ -504,14 +571,14 @@ void var() {
   nextToken = yylex();
 
   if(nextToken == TOK_BEGIN) return;
-  if(nextToken != TOK_IDENT) throw "TODO";
+  if(nextToken != TOK_IDENT) throw 'TODO';
   if(printParse) output("IDENTIFIER");
   
   string idName;
   idName = yytext;
 
   nextToken = yylex();
-  if(nextToken != TOK_COLON) throw "TODO";
+  if(nextToken != TOK_COLON) throw 'TODO';
   if(printParse) output("COLON");
 
   string idType;
@@ -523,7 +590,7 @@ void var() {
   idType = yytext;
 
   nextToken = yylex();
-  if(nextToken != TOK_SEMICOLON) throw "TODO";
+  if(nextToken != TOK_SEMICOLON) throw 'TODO';
   if(printParse) output("SEMICOLON");
 
   if(printParse)
@@ -598,7 +665,7 @@ ProgramNode* program() {
     cout << "exit <program>" << endl;
   }
 
-  nextToken = yylex(); // We are hoping for EOF
+  while(nextToken == TOK_END) nextToken = yylex(); // We are hoping for EOF
   return newProgramNode;
 }
 bool first_of_program() {
