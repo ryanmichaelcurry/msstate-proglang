@@ -3,7 +3,7 @@
 // purpose: Recursive descent parsing of arithmetic expressions
 //          Builds the parse tree while parsing the input
 // version: Fall 2023
-//  author: Joe Crumpton / Ed Swan
+//  author: Ryan Michael Curry
 //*****************************************************************************
 
 #include "parser.h"
@@ -485,7 +485,7 @@ CompoundStmtNode* compound_stmt() {
 
   level = level - 1;
   //nextToken = yylex();
-  if(nextToken != TOK_END) throw 'TODO';
+  if(nextToken != TOK_END) throw "13: 'END' expected";
   if(printParse) {
     output("END");
     cout << psp() << "exit <compound_stmt>" << endl;
@@ -505,12 +505,12 @@ ReadStmtNode* read() {
 
   nextToken = yylex();
   // (
-  if(nextToken != TOK_OPENPAREN) throw 'TODO';
+  if(nextToken != TOK_OPENPAREN) throw "6: '(' expected";
   if(printParse) output("OPENPAREN");
   // 'Hello World'
   nextToken = yylex();
 
-  if(nextToken != TOK_IDENT) throw 'TODO';
+  if(nextToken != TOK_IDENT) throw "2: identifier expected";
   if(printParse) {
     output("IDENTIFIER");
     cout << psp() << yytext << endl;
@@ -520,7 +520,7 @@ ReadStmtNode* read() {
   newReadStmtNode = new ReadStmtNode(level, ident);
   nextToken = yylex();
 
-  if(nextToken != TOK_CLOSEPAREN) throw 'TODO';
+  if(nextToken != TOK_CLOSEPAREN) throw "4: ')' expected";
   if(printParse) output("CLOSEPAREN");
   nextToken = yylex();
 
@@ -542,7 +542,7 @@ WriteStmtNode* write() {
 
   nextToken = yylex();
   // (
-  if(nextToken != TOK_OPENPAREN) throw 'TODO';
+  if(nextToken != TOK_OPENPAREN) throw "6: '(' expected";
   if(printParse) output("OPENPAREN");
   // 'Hello World'
   nextToken = yylex();
@@ -559,7 +559,7 @@ WriteStmtNode* write() {
     cout << psp() << yytext << endl;
   }
   nextToken = yylex();
-  if(nextToken != TOK_CLOSEPAREN) throw 'TODO';
+  if(nextToken != TOK_CLOSEPAREN) throw "4: ')' expected";
   if(printParse) output("CLOSEPAREN");
   nextToken = yylex();
 
@@ -624,7 +624,7 @@ StatementNode* statement() {
     break;
   case TOK_WHILE:
     /* while statement */
-    while_stmt();
+    return while_stmt();
     break;
   case TOK_READ:
     /* read statement */
@@ -635,7 +635,8 @@ StatementNode* statement() {
     return write();
     break;
   default:
-    throw 'fuck';
+    throw "999: an error has occurred";
+    break;
   }
 }
 bool first_of_statement(void) {
@@ -645,14 +646,14 @@ void var() {
   nextToken = yylex();
 
   if(nextToken == TOK_BEGIN) return;
-  if(nextToken != TOK_IDENT) throw 'TODO';
+  if(nextToken != TOK_IDENT) throw "2: identifier expected";
   if(printParse) output("IDENTIFIER");
   
   string idName;
   idName = yytext;
 
   nextToken = yylex();
-  if(nextToken != TOK_COLON) throw 'TODO';
+  if(nextToken != TOK_COLON) throw "5: ':' expected";
   if(printParse) output("COLON");
 
   string idType;
@@ -664,7 +665,7 @@ void var() {
   idType = yytext;
 
   nextToken = yylex();
-  if(nextToken != TOK_SEMICOLON) throw 'TODO';
+  if(nextToken != TOK_SEMICOLON) throw "14: ';' expected";
   if(printParse) output("SEMICOLON");
 
   if(printParse)

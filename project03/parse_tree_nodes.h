@@ -3,7 +3,7 @@
 // purpose: node classes used while building a parse tree for
 //              the arithmetic expression
 // version: Fall 2023
-//  author: Joe Crumpton / Ed Swan
+//  author: Ryan Michael Curry
 //*****************************************************************************
 
 #ifndef PARSE_TREE_NODES_H

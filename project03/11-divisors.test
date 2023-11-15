@@ -313,7 +313,7 @@ exit <program>
 |  |  |  |  (expression 
 |  |  |  |  |  (simple_exp 
 |  |  |  |  |  |  (term 
-|  |  |  |  |  |  |  (factor 
+|  |  |  |  |  |  |  (factor ( 
 |  |  |  |  |  |  |  |  (expression 
 |  |  |  |  |  |  |  |  |  (simple_exp 
 |  |  |  |  |  |  |  |  |  |  (term 
@@ -328,7 +328,7 @@ exit <program>
 |  |  |  |  |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  |  |  |  |  term) 
 |  |  |  |  |  |  |  |  |  simple_exp) 
-|  |  |  |  |  |  |  |  expression) 
+|  |  |  |  |  |  |  |  expression) )
 |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  term) 
 |  |  |  |  |  simple_exp) 
@@ -348,7 +348,7 @@ exit <program>
 |  |  |  |  |  |  (expression 
 |  |  |  |  |  |  |  (simple_exp 
 |  |  |  |  |  |  |  |  (term 
-|  |  |  |  |  |  |  |  |  (factor 
+|  |  |  |  |  |  |  |  |  (factor ( 
 |  |  |  |  |  |  |  |  |  |  (expression 
 |  |  |  |  |  |  |  |  |  |  |  (simple_exp 
 |  |  |  |  |  |  |  |  |  |  |  |  (term 
@@ -363,7 +363,7 @@ exit <program>
 |  |  |  |  |  |  |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  |  |  |  |  |  |  term) 
 |  |  |  |  |  |  |  |  |  |  |  simple_exp) 
-|  |  |  |  |  |  |  |  |  |  expression) 
+|  |  |  |  |  |  |  |  |  |  expression) )
 |  |  |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  |  |  term) 
 |  |  |  |  |  |  |  simple_exp) 
