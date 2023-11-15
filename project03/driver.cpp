@@ -86,21 +86,26 @@ int main(int argc, char* argv[])
   ProgramNode* root = nullptr;
 
   nextToken = yylex();  // prime the pump (get first token)
+
+  try {
   do {
     root = program(); 
-  } while(nextToken != TOK_EOF);
-
+  } while(nextToken != TOK_EOF); 
+  } catch(char const *errmsg) {
+    cout << endl << "***ERROR:" << endl;
+    cout << "On line number " << yylineno << ", near |" << yytext << "|, error type ";
+    cout << errmsg << endl;
+    return EXIT_FAILURE;
+  }
   if (yyin)
     fclose(yyin);
+  
 
   yylex_destroy();
 
   if(printParse) {
     // Tell the world about our success!!
     cout << endl << "=== GO BULLDOGS! Your parse was successful! ===" << endl;
-  
-
-
   }
 
   // Printing and Deleting the tree all result in 

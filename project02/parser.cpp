@@ -234,7 +234,7 @@ int lex_throw(int token, bool getNext = true)
     break;
   case TOK_THEN:
     if (current_token != TOK_THEN)
-      throw "52: 'THEN' expected";;
+      throw "52: 'THEN' expected";
     break;
   default:
     throw "999: an error has occurred";

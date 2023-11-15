@@ -50,8 +50,9 @@ enter <program>
 |  |  |  |  |  |  |  exit <factor>
 |  |  |  |  |  |  exit <term>
 |  |  |  |  |  exit <simple_exp>
-|  |  |  |  enter <expression>
+|  |  |  |  exit <expression>
 |  |  |  exit <assignment>
+|  |  |  found |;| SEMICOLON
 |  |  |  found |WRITE| STATEMENT
 |  |  |  enter <write>
 |  |  |  |  found |(| OPENPAREN
@@ -64,8 +65,6 @@ enter <program>
 |  |  |  enter <read>
 |  |  |  |  found |(| OPENPAREN
 |  |  |  |  found |HEIGHT| IDENTIFIER
-|  |  |  |  HEIGHT
-|  |  |  |  found |HEIGHT| READ
 |  |  |  |  HEIGHT
 |  |  |  |  found |)| CLOSEPAREN
 |  |  |  exit <read>
@@ -82,8 +81,6 @@ enter <program>
 |  |  |  enter <read>
 |  |  |  |  found |(| OPENPAREN
 |  |  |  |  found |WIDTH| IDENTIFIER
-|  |  |  |  WIDTH
-|  |  |  |  found |WIDTH| READ
 |  |  |  |  WIDTH
 |  |  |  |  found |)| CLOSEPAREN
 |  |  |  exit <read>
@@ -102,14 +99,18 @@ enter <program>
 |  |  |  |  |  |  |  found |HEIGHT| FACTOR
 |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  found |HEIGHT| IDENTIFIER
+|  |  |  |  |  |  |  |  HEIGHT
 |  |  |  |  |  |  |  exit <factor>
 |  |  |  |  |  |  |  found |*| MULTIPLY
+|  |  |  |  |  |  |  *
+|  |  |  |  |  |  |  found |WIDTH| FACTOR
 |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  found |WIDTH| IDENTIFIER
+|  |  |  |  |  |  |  |  WIDTH
 |  |  |  |  |  |  |  exit <factor>
 |  |  |  |  |  |  exit <term>
 |  |  |  |  |  exit <simple_exp>
-|  |  |  |  enter <expression>
+|  |  |  |  exit <expression>
 |  |  |  exit <assignment>
 |  |  |  found |;| SEMICOLON
 |  |  |  found |EAREA| STATEMENT
@@ -126,18 +127,25 @@ enter <program>
 |  |  |  |  |  |  |  found |PI| FACTOR
 |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  found |PI| IDENTIFIER
+|  |  |  |  |  |  |  |  PI
 |  |  |  |  |  |  |  exit <factor>
 |  |  |  |  |  |  |  found |*| MULTIPLY
+|  |  |  |  |  |  |  *
+|  |  |  |  |  |  |  found |HEIGHT| FACTOR
 |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  found |HEIGHT| IDENTIFIER
+|  |  |  |  |  |  |  |  HEIGHT
 |  |  |  |  |  |  |  exit <factor>
 |  |  |  |  |  |  |  found |*| MULTIPLY
+|  |  |  |  |  |  |  *
+|  |  |  |  |  |  |  found |WIDTH| FACTOR
 |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  found |WIDTH| IDENTIFIER
+|  |  |  |  |  |  |  |  WIDTH
 |  |  |  |  |  |  |  exit <factor>
 |  |  |  |  |  |  exit <term>
 |  |  |  |  |  exit <simple_exp>
-|  |  |  |  enter <expression>
+|  |  |  |  exit <expression>
 |  |  |  exit <assignment>
 |  |  |  found |;| SEMICOLON
 |  |  |  found |WRITE| STATEMENT
@@ -183,60 +191,60 @@ exit <program>
 (program 
 |  (block 
 |  |  (compound_stmt
-|  |  |  (assignment_stmt 
-|  |  |  |  (expr 
+|  |  |  (assignment_stmt ( PI := )
+|  |  |  |  (expression 
 |  |  |  |  |  (simple_exp 
 |  |  |  |  |  |  (term 
-|  |  |  |  |  |  |  (factor (FLOATLIT: 3) 
+|  |  |  |  |  |  |  (factor ( FLOATLIT: 3.14159 ) 
 |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  term) 
 |  |  |  |  |  simple_exp) 
-|  |  |  |  expr) 
-|  |  |  assignment_stmt) 
+|  |  |  |  expression) 
+|  |  |  assignment_stmt)
 |  |  |  (write_stmt ( 'Input height: ' )
 |  |  |  write_stmt)
-|  |  |  (read_stmt 
+|  |  |  (read_stmt ( HEIGHT )
 |  |  |  read_stmt)
 |  |  |  (write_stmt ( 'Input width: ' )
 |  |  |  write_stmt)
-|  |  |  (read_stmt 
+|  |  |  (read_stmt ( WIDTH )
 |  |  |  read_stmt)
-|  |  |  (assignment_stmt 
-|  |  |  |  (expr 
+|  |  |  (assignment_stmt ( RAREA := )
+|  |  |  |  (expression 
 |  |  |  |  |  (simple_exp 
 |  |  |  |  |  |  (term 
-|  |  |  |  |  |  |  (factor (IDENT: HEIGHT) 
+|  |  |  |  |  |  |  (factor ( IDENT: HEIGHT ) 
 |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  * 
-|  |  |  |  |  |  |  (factor (IDENT: WIDTH) 
+|  |  |  |  |  |  |  (factor ( IDENT: WIDTH ) 
 |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  term) 
 |  |  |  |  |  simple_exp) 
-|  |  |  |  expr) 
-|  |  |  assignment_stmt) 
-|  |  |  (assignment_stmt 
-|  |  |  |  (expr 
+|  |  |  |  expression) 
+|  |  |  assignment_stmt)
+|  |  |  (assignment_stmt ( EAREA := )
+|  |  |  |  (expression 
 |  |  |  |  |  (simple_exp 
 |  |  |  |  |  |  (term 
-|  |  |  |  |  |  |  (factor (IDENT: PI) 
+|  |  |  |  |  |  |  (factor ( IDENT: PI ) 
 |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  * 
-|  |  |  |  |  |  |  (factor (IDENT: HEIGHT) 
+|  |  |  |  |  |  |  (factor ( IDENT: HEIGHT ) 
 |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  * 
-|  |  |  |  |  |  |  (factor (IDENT: WIDTH) 
+|  |  |  |  |  |  |  (factor ( IDENT: WIDTH ) 
 |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  term) 
 |  |  |  |  |  simple_exp) 
-|  |  |  |  expr) 
-|  |  |  assignment_stmt) 
+|  |  |  |  expression) 
+|  |  |  assignment_stmt)
 |  |  |  (write_stmt ( 'RAREA = ' )
 |  |  |  write_stmt)
-|  |  |  (write_stmt 
+|  |  |  (write_stmt ( RAREA )
 |  |  |  write_stmt)
 |  |  |  (write_stmt ( 'EAREA = ' )
 |  |  |  write_stmt)
-|  |  |  (write_stmt 
+|  |  |  (write_stmt ( EAREA )
 |  |  |  write_stmt)
 |  |  compound_stmt)
 |  block) 
@@ -255,24 +263,24 @@ Deleting ProgramNode
 Deleting BlockNode
 Deleting StatementNode:CompoundStmtNode
 Deleting StatementNode:AssignmentStmtNode
-Deleting ExprNode 
+Deleting ExpressionNode
 Deleting SimpleExpNode
-Deleting TermNode 
+Deleting TermNode
 Deleting FactorNode:FloatLitNode
 Deleting StatementNode:WriteStmtNode
 Deleting StatementNode:ReadStmtNode
 Deleting StatementNode:WriteStmtNode
 Deleting StatementNode:ReadStmtNode
 Deleting StatementNode:AssignmentStmtNode
-Deleting ExprNode 
+Deleting ExpressionNode
 Deleting SimpleExpNode
-Deleting TermNode 
+Deleting TermNode
 Deleting FactorNode:IdNode
 Deleting FactorNode:IdNode
 Deleting StatementNode:AssignmentStmtNode
-Deleting ExprNode 
+Deleting ExpressionNode
 Deleting SimpleExpNode
-Deleting TermNode 
+Deleting TermNode
 Deleting FactorNode:IdNode
 Deleting FactorNode:IdNode
 Deleting FactorNode:IdNode

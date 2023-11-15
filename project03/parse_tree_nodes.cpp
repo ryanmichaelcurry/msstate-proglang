@@ -38,7 +38,7 @@ IdNode::~IdNode() {
 	id = nullptr;
 }
 void IdNode::printTo(ostream& os) {
-	os << "(IDENT: " << *id << ") ";
+	os << "( IDENT: " << *id << " ) ";
 }
 // ---------------------------------------------------------------------
 IntLitNode::IntLitNode(int level, int value) {
@@ -51,7 +51,7 @@ IntLitNode::~IntLitNode() {
 	  // Nothing to do since the only members are not pointers
 }
 void IntLitNode::printTo(ostream& os) {
-	os << "(INTLIT: " << int_literal << ") ";
+	os << "( INTLIT: " << int_literal << " ) ";
 }
 // ---------------------------------------------------------------------
 FloatLitNode::FloatLitNode(int level, float value) {
@@ -64,7 +64,7 @@ FloatLitNode::~FloatLitNode() {
 	  // Nothing to do since the only members are not pointers
 }
 void FloatLitNode::printTo(ostream& os) {
-	os << "(FLOATLIT: " << float_literal << ") ";
+	os << "( FLOATLIT: " << float_literal << " ) ";
 }
 // ---------------------------------------------------------------------
 MinusNode::MinusNode(int level, FactorNode* fn) {
@@ -74,10 +74,10 @@ MinusNode::MinusNode(int level, FactorNode* fn) {
 MinusNode::~MinusNode() {
   if(printDelete)
     cout << "Deleting FactorNode:MinusNode" << endl;
-	  // Nothing to do since the only members are not pointers
+  delete factorNode;
 }
 void MinusNode::printTo(ostream& os) {
-	os << "(MINUSNODE:  ) ";
+	os << "(- " << *(factorNode) << ") ";
 }
 // ---------------------------------------------------------------------
 NotNode::NotNode(int level, FactorNode* fn) {
@@ -87,10 +87,10 @@ NotNode::NotNode(int level, FactorNode* fn) {
 NotNode::~NotNode() {
   if(printDelete)
     cout << "Deleting FactorNode:NotNode" << endl;
-	  // Nothing to do since the only members are not pointers
+  delete factorNode;
 }
 void NotNode::printTo(ostream& os) {
-	os << "(NOTNODE:  ) ";
+	os << "(NOT " << *(factorNode) << ") ";
 }
 // ---------------------------------------------------------------------
 NestedExprNode::NestedExprNode(int level, ExprNode* en) {
@@ -129,7 +129,7 @@ ostream& operator<<(ostream& os, TermNode& tn) {
 }
 TermNode::~TermNode() {
   if(printDelete)
-    cout << "Deleting TermNode " << endl;
+    cout << "Deleting TermNode" << endl;
 	delete firstFactor;
 	firstFactor = nullptr;
 
@@ -144,7 +144,7 @@ ExprNode::ExprNode(int level) {
   _level = level - 1;
 }
 ostream& operator<<(ostream& os, ExprNode& en) {
-  os << endl; indent(en._level); os << "(expr ";
+  os << endl; indent(en._level); os << "(expression ";
 	os << *(en.firstSimpleExp);
 
 	int length = en.restSimpleExpOps.size();
@@ -152,17 +152,27 @@ ostream& operator<<(ostream& os, ExprNode& en) {
 		int op = en.restSimpleExpOps[i];
     if (op == TOK_PLUS) {
       os << endl; indent(en._level); os << "+ ";
-    } else {
+    }  else if(op == TOK_MINUS) {
       os << endl; indent(en._level); os << "- ";
+    } else if(op == TOK_LESSTHAN) {
+      os << endl; indent(en._level); os << "< ";
+    } else if(op == TOK_GREATERTHAN) {
+      os << endl; indent(en._level); os << "> ";
+    } else if(op == TOK_NOTEQUALTO) {
+      os << endl; indent(en._level); os << "<> ";
+    } else if(op == TOK_EQUALTO) {
+      os << endl; indent(en._level); os << "= ";
+    } else {
+      os << endl; indent(en._level); os << "UNEXPECTED";
     }
 		os << *(en.restSimpleExps[i]);
 	}
-  os << endl; indent(en._level); os << "expr) ";
+  os << endl; indent(en._level); os << "expression) ";
 	return os;
 }
 ExprNode::~ExprNode() {
   if(printDelete)
-    cout << "Deleting ExprNode " << endl;
+    cout << "Deleting ExpressionNode" << endl;
 	delete firstSimpleExp;
 	firstSimpleExp = nullptr;
 
@@ -248,14 +258,14 @@ AssignmentStmtNode::AssignmentStmtNode(int level, string ident, ExprNode* expres
 AssignmentStmtNode::~AssignmentStmtNode() {
   if(printDelete)
     cout << "Deleting StatementNode:AssignmentStmtNode" << endl;
-	  //TODO: delete *ident;
+	  delete ident;
     delete expression;
     expression = nullptr;
 }
 void AssignmentStmtNode::printTo(ostream& os) {
-	os << endl; indent(_level); os << "(assignment_stmt ";
+	os << endl; indent(_level); os << "(assignment_stmt ( " << *ident << " := )";
 	os << *(expression);
-  os << endl; indent(_level); os << "assignment_stmt) ";
+  os << endl; indent(_level); os << "assignment_stmt)";
 }
 // ---------------------------------------------------------------------
 CompoundStmtNode::CompoundStmtNode(int level) {
@@ -281,7 +291,7 @@ void CompoundStmtNode::printTo(ostream& os) {
   os << endl; indent(_level); os << "compound_stmt)";
 }
 // ---------------------------------------------------------------------
-IfStmtNode::IfStmtNode(int level, ExprNode* expression, StatementNode* thenStatement, StatementNode* elseStatement = nullptr) {
+IfStmtNode::IfStmtNode(int level, ExprNode* expression, StatementNode* thenStatement, StatementNode* elseStatement) {
   _level = level - 1;
   this->expression = expression;
   this->thenStatement = thenStatement;
@@ -308,7 +318,7 @@ void IfStmtNode::printTo(ostream& os) {
     os << *(elseStatement);
     os << endl; indent(_level); os << "else) ";
   }
-  os << endl; indent(_level); os << "if_stmt) ";
+  os << endl; indent(_level); os << "if_stmt)";
 }
 // ---------------------------------------------------------------------
 WhileStmtNode::WhileStmtNode(int level, ExprNode* expression, StatementNode* statement) {
@@ -319,13 +329,16 @@ WhileStmtNode::WhileStmtNode(int level, ExprNode* expression, StatementNode* sta
 WhileStmtNode::~WhileStmtNode() {
   if(printDelete)
     cout << "Deleting StatementNode:WhileStmtNode" << endl;
+    delete expression;
+    expression = nullptr;
     delete statement;
     statement = nullptr;
 }
 void WhileStmtNode::printTo(ostream& os) {
 	os << endl; indent(_level); os << "(while_stmt ";
+  os << *(expression);
 	os << *(statement);
-  os << endl; indent(_level); os << "while_stmt) ";
+  os << endl; indent(_level); os << "while_stmt)";
 }
 
 
@@ -346,6 +359,7 @@ WriteStmtNode::~WriteStmtNode() {
 void WriteStmtNode::printTo(ostream& os) {
 	os << endl; indent(_level); os << "(write_stmt ";
   if(ident->empty()) os << "( " << *(literal) << " )";
+  if(literal->empty()) os << "( " << *(ident) << " )";
   os << endl; indent(_level); os << "write_stmt)";
 }
 
@@ -361,8 +375,7 @@ ReadStmtNode::~ReadStmtNode() {
     ident = nullptr;
 }
 void ReadStmtNode::printTo(ostream& os) {
-	os << endl; indent(_level); os << "(read_stmt ";
-  if(ident->empty()) os << "( " << *(ident) << " )";
+	os << endl; indent(_level); os << "(read_stmt ( " << *ident << " )";
   os << endl; indent(_level); os << "read_stmt)";
 }
 

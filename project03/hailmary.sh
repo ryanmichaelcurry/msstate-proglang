@@ -1,6 +1,6 @@
 #!/bin/bash
 make clean
 make
-echo '4'
-./parse.exe -p -d 4-if_convert.pas | diff - 4-if_convert.correct
-./parse.exe -p -d 4-if_convert.pas > 4-if_convert.test
+echo '12'
+./parse.exe -p -d 12-not_sample.pas | diff - 12-not_sample.correct
+./parse.exe -p -d 12-not_sample.pas > 12-not_sample.test

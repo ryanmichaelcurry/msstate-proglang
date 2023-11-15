@@ -4,7 +4,6 @@ make
 echo '1'
 ./parse.exe -p -d 1-hello.pas | diff - 1-hello.correct
 ./parse.exe -p -d 1-hello.pas > 1-hello.test
-: '
 echo '2'
 ./parse.exe -p -d 2-areas.pas | diff - 2-areas.correct
 ./parse.exe -p -d 2-areas.pas > 2-areas.test
@@ -26,4 +25,16 @@ echo '7'
 echo '8'
 ./parse.exe -p -d 8-mult_table.pas | diff - 8-mult_table.correct
 ./parse.exe -p -d 8-mult_table.pas > 8-mult_table.test
-'
+echo '9'
+./parse.exe -p -d 9-input_test.pas | diff - 9-input_test.correct
+./parse.exe -p -d 9-input_test.pas > 9-input_test.test
+echo '10'
+./parse.exe -p -d 10-threedim.pas | diff - 10-threedim.correct
+./parse.exe -p -d 10-threedim.pas > 10-threedim.test
+echo '11'
+./parse.exe -p -d 11-divisors.pas | diff - 11-divisors.correct
+./parse.exe -p -d 11-divisors.pas > 11-divisors.test
+echo '12'
+./parse.exe -p -d 12-not_sample.pas | diff - 12-not_sample.correct
+./parse.exe -p -d 12-not_sample.pas > 12-not_sample.test
+

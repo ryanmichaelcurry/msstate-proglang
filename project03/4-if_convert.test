@@ -22,10 +22,9 @@ enter <program>
 |  |  |  |  found |(| OPENPAREN
 |  |  |  |  found |F| IDENTIFIER
 |  |  |  |  F
-|  |  |  |  found |F| READ
-|  |  |  |  F
 |  |  |  |  found |)| CLOSEPAREN
 |  |  |  exit <read>
+|  |  |  found |;| SEMICOLON
 |  |  |  found |IF| STATEMENT
 |  |  |  enter <if>
 |  |  |  |  found |F| EXPRESSION
@@ -37,28 +36,30 @@ enter <program>
 |  |  |  |  |  |  |  found |F| FACTOR
 |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  found |F| IDENTIFIER
+|  |  |  |  |  |  |  |  F
 |  |  |  |  |  |  |  exit <factor>
-|  |  |  |  |  |  |  <
-|  |  |  |  |  |  |  <
 |  |  |  |  |  |  exit <term>
 |  |  |  |  |  exit <simple_exp>
 |  |  |  |  |  found |<| LESSTHAN
+|  |  |  |  |  <
+|  |  |  |  |  found |-| SIMPLE_EXP
 |  |  |  |  |  enter <simple_exp>
 |  |  |  |  |  |  found |-| TERM
 |  |  |  |  |  |  enter <term>
 |  |  |  |  |  |  |  found |-| FACTOR
 |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  found |-| MINUS
+|  |  |  |  |  |  |  |  -
+|  |  |  |  |  |  |  |  found |100| FACTOR
 |  |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  |  found |100| INTLIT
+|  |  |  |  |  |  |  |  |  100
 |  |  |  |  |  |  |  |  exit <factor>
 |  |  |  |  |  |  |  exit <factor>
-|  |  |  |  |  |  |  THEN
-|  |  |  |  |  |  |  THEN
 |  |  |  |  |  |  exit <term>
 |  |  |  |  |  exit <simple_exp>
 |  |  |  |  exit <expression>
-THEN
+|  |  |  |  found |THEN| THEN
 |  |  |  |  found |BEGIN| STATEMENT
 |  |  |  |  found |BEGIN| BEGIN
 |  |  |  |  enter <compound_stmt>
@@ -69,6 +70,7 @@ THEN
 |  |  |  |  |  |  'Temp is too low!'
 |  |  |  |  |  |  found |)| CLOSEPAREN
 |  |  |  |  |  exit <write>
+|  |  |  |  |  found |;| SEMICOLON
 |  |  |  |  |  found |WRITE| STATEMENT
 |  |  |  |  |  enter <write>
 |  |  |  |  |  |  found |(| OPENPAREN
@@ -78,7 +80,6 @@ THEN
 |  |  |  |  |  exit <write>
 |  |  |  |  found |END| END
 |  |  |  |  exit <compound_stmt>
-ELSE
 |  |  |  found |ELSE| ELSE
 |  |  |  enter <else>
 |  |  |  |  found |BEGIN| STATEMENT
@@ -98,6 +99,8 @@ ELSE
 |  |  |  |  |  |  |  |  |  found |(| FACTOR
 |  |  |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  |  |  found |(| OPENPAREN
+|  |  |  |  |  |  |  |  |  |  (
+|  |  |  |  |  |  |  |  |  |  found |F| EXPRESSION
 |  |  |  |  |  |  |  |  |  |  enter <expression>
 |  |  |  |  |  |  |  |  |  |  |  found |F| SIMPLE_EXP
 |  |  |  |  |  |  |  |  |  |  |  enter <simple_exp>
@@ -106,30 +109,30 @@ ELSE
 |  |  |  |  |  |  |  |  |  |  |  |  |  found |F| FACTOR
 |  |  |  |  |  |  |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  found |F| IDENTIFIER
+|  |  |  |  |  |  |  |  |  |  |  |  |  |  F
 |  |  |  |  |  |  |  |  |  |  |  |  |  exit <factor>
-|  |  |  |  |  |  |  |  |  |  |  |  |  -
-|  |  |  |  |  |  |  |  |  |  |  |  |  -
 |  |  |  |  |  |  |  |  |  |  |  |  exit <term>
-|  |  |  |  |  |  |  |  |  |  |  |  found |-| TERM
-SIMPLE EXP3001
+|  |  |  |  |  |  |  |  |  |  |  |  found |-| MINUS
+|  |  |  |  |  |  |  |  |  |  |  |  -
+|  |  |  |  |  |  |  |  |  |  |  |  found |32.0| TERM
 |  |  |  |  |  |  |  |  |  |  |  |  enter <term>
 |  |  |  |  |  |  |  |  |  |  |  |  |  found |32.0| FACTOR
 |  |  |  |  |  |  |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  found |32.0| FLOATLIT
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  32.0
 |  |  |  |  |  |  |  |  |  |  |  |  |  exit <factor>
-|  |  |  |  |  |  |  |  |  |  |  |  |  )
-|  |  |  |  |  |  |  |  |  |  |  |  |  )
 |  |  |  |  |  |  |  |  |  |  |  |  exit <term>
 |  |  |  |  |  |  |  |  |  |  |  exit <simple_exp>
 |  |  |  |  |  |  |  |  |  |  exit <expression>
-|  |  |  |  |  |  |  |  |  |  )
 |  |  |  |  |  |  |  |  |  |  found |)| CLOSEPAREN
 |  |  |  |  |  |  |  |  |  exit <factor>
 |  |  |  |  |  |  |  |  |  found |*| MULTIPLY
 |  |  |  |  |  |  |  |  |  *
+|  |  |  |  |  |  |  |  |  found |(| FACTOR
 |  |  |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  |  |  found |(| OPENPAREN
+|  |  |  |  |  |  |  |  |  |  (
+|  |  |  |  |  |  |  |  |  |  found |5.0| EXPRESSION
 |  |  |  |  |  |  |  |  |  |  enter <expression>
 |  |  |  |  |  |  |  |  |  |  |  found |5.0| SIMPLE_EXP
 |  |  |  |  |  |  |  |  |  |  |  enter <simple_exp>
@@ -142,24 +145,21 @@ SIMPLE EXP3001
 |  |  |  |  |  |  |  |  |  |  |  |  |  exit <factor>
 |  |  |  |  |  |  |  |  |  |  |  |  |  found |/| DIVIDE
 |  |  |  |  |  |  |  |  |  |  |  |  |  /
+|  |  |  |  |  |  |  |  |  |  |  |  |  found |9.0| FACTOR
 |  |  |  |  |  |  |  |  |  |  |  |  |  enter <factor>
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  found |9.0| FLOATLIT
 |  |  |  |  |  |  |  |  |  |  |  |  |  |  9.0
 |  |  |  |  |  |  |  |  |  |  |  |  |  exit <factor>
-|  |  |  |  |  |  |  |  |  |  |  |  |  )
-|  |  |  |  |  |  |  |  |  |  |  |  |  )
 |  |  |  |  |  |  |  |  |  |  |  |  exit <term>
 |  |  |  |  |  |  |  |  |  |  |  exit <simple_exp>
 |  |  |  |  |  |  |  |  |  |  exit <expression>
-|  |  |  |  |  |  |  |  |  |  )
 |  |  |  |  |  |  |  |  |  |  found |)| CLOSEPAREN
 |  |  |  |  |  |  |  |  |  exit <factor>
-|  |  |  |  |  |  |  |  |  ;
-|  |  |  |  |  |  |  |  |  ;
 |  |  |  |  |  |  |  |  exit <term>
 |  |  |  |  |  |  |  exit <simple_exp>
 |  |  |  |  |  |  exit <expression>
 |  |  |  |  |  exit <assignment>
+|  |  |  |  |  found |;| SEMICOLON
 |  |  |  |  |  found |WRITE| STATEMENT
 |  |  |  |  |  enter <write>
 |  |  |  |  |  |  found |(| OPENPAREN
@@ -206,82 +206,84 @@ exit <program>
 (program 
 |  (block 
 |  |  (compound_stmt
-|  |  |  (read_stmt 
+|  |  |  (read_stmt ( F )
 |  |  |  read_stmt)
-|  |  (if_stmt 
-|  |  |  |  (expr 
+|  |  |  (if_stmt 
+|  |  |  |  (expression 
 |  |  |  |  |  (simple_exp 
 |  |  |  |  |  |  (term 
-|  |  |  |  |  |  |  (factor (IDENT: F) 
+|  |  |  |  |  |  |  (factor ( IDENT: F ) 
 |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  term) 
 |  |  |  |  |  simple_exp) 
-|  |  |  |  - 
+|  |  |  |  < 
 |  |  |  |  |  (simple_exp 
 |  |  |  |  |  |  (term 
-|  |  |  |  |  |  |  (factor (MINUSNODE:  ) 
+|  |  |  |  |  |  |  (factor (- 
+|  |  |  |  |  |  |  |  (factor ( INTLIT: 100 ) 
+|  |  |  |  |  |  |  |  factor) ) 
 |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  term) 
 |  |  |  |  |  simple_exp) 
-|  |  |  |  expr) 
-|  |  (then 
+|  |  |  |  expression) 
+|  |  |  (then 
 |  |  |  |  (compound_stmt
 |  |  |  |  |  (write_stmt ( 'Temp is too low!' )
 |  |  |  |  |  write_stmt)
 |  |  |  |  |  (write_stmt ( 'Is it really that cold?' )
 |  |  |  |  |  write_stmt)
 |  |  |  |  compound_stmt)
-|  |  then) 
-|  |  (else 
+|  |  |  then) 
+|  |  |  (else 
 |  |  |  |  (compound_stmt
-|  |  |  |  |  (assignment_stmt 
-|  |  |  |  |  |  (expr 
+|  |  |  |  |  (assignment_stmt ( C := )
+|  |  |  |  |  |  (expression 
 |  |  |  |  |  |  |  (simple_exp 
 |  |  |  |  |  |  |  |  (term 
 |  |  |  |  |  |  |  |  |  (factor 
-|  |  |  |  |  |  |  |  |  |  (expr 
+|  |  |  |  |  |  |  |  |  |  (expression 
 |  |  |  |  |  |  |  |  |  |  |  (simple_exp 
 |  |  |  |  |  |  |  |  |  |  |  |  (term 
-|  |  |  |  |  |  |  |  |  |  |  |  |  (factor (IDENT: F) 
+|  |  |  |  |  |  |  |  |  |  |  |  |  (factor ( IDENT: F ) 
 |  |  |  |  |  |  |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  |  |  |  |  |  |  term) 
 |  |  |  |  |  |  |  |  |  |  |  - 
 |  |  |  |  |  |  |  |  |  |  |  |  (term 
-|  |  |  |  |  |  |  |  |  |  |  |  |  (factor (FLOATLIT: 32) 
+|  |  |  |  |  |  |  |  |  |  |  |  |  (factor ( FLOATLIT: 32 ) 
 |  |  |  |  |  |  |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  |  |  |  |  |  |  term) 
 |  |  |  |  |  |  |  |  |  |  |  simple_exp) 
-|  |  |  |  |  |  |  |  |  |  expr) 
+|  |  |  |  |  |  |  |  |  |  expression) 
 |  |  |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  |  |  * 
 |  |  |  |  |  |  |  |  |  (factor 
-|  |  |  |  |  |  |  |  |  |  (expr 
+|  |  |  |  |  |  |  |  |  |  (expression 
 |  |  |  |  |  |  |  |  |  |  |  (simple_exp 
 |  |  |  |  |  |  |  |  |  |  |  |  (term 
-|  |  |  |  |  |  |  |  |  |  |  |  |  (factor (FLOATLIT: 5) 
+|  |  |  |  |  |  |  |  |  |  |  |  |  (factor ( FLOATLIT: 5 ) 
 |  |  |  |  |  |  |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  |  |  |  |  |  |  / 
-|  |  |  |  |  |  |  |  |  |  |  |  |  (factor (FLOATLIT: 9) 
+|  |  |  |  |  |  |  |  |  |  |  |  |  (factor ( FLOATLIT: 9 ) 
 |  |  |  |  |  |  |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  |  |  |  |  |  |  term) 
 |  |  |  |  |  |  |  |  |  |  |  simple_exp) 
-|  |  |  |  |  |  |  |  |  |  expr) 
+|  |  |  |  |  |  |  |  |  |  expression) 
 |  |  |  |  |  |  |  |  |  factor) 
 |  |  |  |  |  |  |  |  term) 
 |  |  |  |  |  |  |  simple_exp) 
-|  |  |  |  |  |  expr) 
-|  |  |  |  |  assignment_stmt) 
+|  |  |  |  |  |  expression) 
+|  |  |  |  |  assignment_stmt)
 |  |  |  |  |  (write_stmt ( ' FAHRENHEIT= ' )
 |  |  |  |  |  write_stmt)
-|  |  |  |  |  (write_stmt 
+|  |  |  |  |  (write_stmt ( F )
 |  |  |  |  |  write_stmt)
 |  |  |  |  |  (write_stmt ( ' CELSIUS= ' )
 |  |  |  |  |  write_stmt)
-|  |  |  |  |  (write_stmt 
+|  |  |  |  |  (write_stmt ( C )
 |  |  |  |  |  write_stmt)
 |  |  |  |  compound_stmt)
-|  |  else) 
-|  |  if_stmt) 
+|  |  |  else) 
+|  |  |  if_stmt)
 |  |  compound_stmt)
 |  block) 
 program) 
@@ -297,32 +299,33 @@ Deleting BlockNode
 Deleting StatementNode:CompoundStmtNode
 Deleting StatementNode:ReadStmtNode
 Deleting StatementNode:IfStmtNode
-Deleting ExprNode 
+Deleting ExpressionNode
 Deleting SimpleExpNode
-Deleting TermNode 
+Deleting TermNode
 Deleting FactorNode:IdNode
 Deleting SimpleExpNode
-Deleting TermNode 
+Deleting TermNode
 Deleting FactorNode:MinusNode
+Deleting FactorNode:IntLitNode
 Deleting StatementNode:CompoundStmtNode
 Deleting StatementNode:WriteStmtNode
 Deleting StatementNode:WriteStmtNode
 Deleting StatementNode:CompoundStmtNode
 Deleting StatementNode:AssignmentStmtNode
-Deleting ExprNode 
+Deleting ExpressionNode
 Deleting SimpleExpNode
-Deleting TermNode 
+Deleting TermNode
 Deleting FactorNode:NestedExprNode
-Deleting ExprNode 
+Deleting ExpressionNode
 Deleting SimpleExpNode
-Deleting TermNode 
+Deleting TermNode
 Deleting FactorNode:IdNode
-Deleting TermNode 
+Deleting TermNode
 Deleting FactorNode:FloatLitNode
 Deleting FactorNode:NestedExprNode
-Deleting ExprNode 
+Deleting ExpressionNode
 Deleting SimpleExpNode
-Deleting TermNode 
+Deleting TermNode
 Deleting FactorNode:FloatLitNode
 Deleting FactorNode:FloatLitNode
 Deleting StatementNode:WriteStmtNode
