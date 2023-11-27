@@ -119,7 +119,8 @@ int main(int argc, char* argv[])
   }
   cout << endl;
 
-  cout << "*** Delete the Tree ***" << endl;
+  if(printDelete)
+    cout << "*** Delete the Tree ***" << endl;
   delete root;
   root = nullptr;
 

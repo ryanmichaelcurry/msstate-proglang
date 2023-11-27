@@ -226,7 +226,7 @@ TermNode* term() {
   level = level + 1;
   TermNode* newTermNode = new TermNode(level);
 
-  output("FACTOR");
+  if(printParse) output("FACTOR");
 
   /* Parse the first factor */
   newTermNode->firstFactor = factor();
@@ -239,16 +239,22 @@ TermNode* term() {
     switch (nextToken)
     {
     case TOK_MULTIPLY:
-      if(printParse) output("MULTIPLY");
-      cout << psp() << yytext << endl;
+      if(printParse) {
+        output("MULTIPLY");
+        cout << psp() << yytext << endl;
+      }
       break;
     case TOK_DIVIDE:
-      if(printParse) output("DIVIDE");
-      cout << psp() << yytext << endl;
+      if(printParse) {
+        output("DIVIDE");
+        cout << psp() << yytext << endl;
+      }
       break;
     case TOK_AND:
-      if(printParse) output("AND");
-      cout << psp() << yytext << endl;
+      if(printParse) {
+        output("AND");
+        cout << psp() << yytext << endl;
+      }
       break;
     }
     newTermNode->restFactorOps.push_back(nextToken);
@@ -666,10 +672,12 @@ void var() {
 
   string idType;
   nextToken = yylex();
-  if (nextToken == TOK_REAL || nextToken == TOK_INTEGER)
+  if (nextToken == TOK_REAL || nextToken == TOK_INTEGER) {
     if(printParse) output("TYPE");
-  else
+  }
+  else {
     throw "10: error in type";
+  }
   idType = yytext;
 
   nextToken = yylex();
