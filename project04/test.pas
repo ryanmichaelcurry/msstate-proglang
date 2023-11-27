@@ -8,5 +8,7 @@ BEGIN
     PI := 3.14159;
     WRITE('Enter Radius: ');
     READ(RADIUS);
-    AREA := RADIUS * PI
+    AREA := RADIUS * 2 * PI;
+    WRITE('The area of the circle: ');
+    WRITE(AREA)
 END

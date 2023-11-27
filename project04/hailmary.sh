@@ -13,3 +13,4 @@ make
 ./parse.exe -p -t -s -d 10-threedim.pas
 ./parse.exe -p -t -s -d 11-divisors.pas
 ./parse.exe -p -t -s -d 12-not_sample.pas
+./parse.exe -p -t -s -d test.pas
